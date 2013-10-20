@@ -28,6 +28,8 @@ describe Dirt::Tokenizer do
   it 'skips line comments' do
     tokenize('# foo').should == []
     tokenize('// foo').should == []
+    tokenize(';; foo').should == []
+    tokenize('-- foo').should == []
   end
 
   it 'skips block comments' do
@@ -58,7 +60,7 @@ describe Dirt::Tokenizer do
 
   it 'tokenizes operators' do
     tokenize('= == != =/=').should == %w[= == != =/=]
-    tokenize('++ -- += -= *= /= %= =/=').should == %w[++ -- += -= *= /= %= =/=]
+    tokenize('++ 0-- += -= *= /= %= =/=').should == %w[++ -- += -= *= /= %= =/=]
     tokenize('> < >= <=').should == %w[> < >= <=]
     tokenize('+ - * / %').should == %w[+ - * / %]
     tokenize('>> << ^ & |').should == %w[>> << ^ & |]

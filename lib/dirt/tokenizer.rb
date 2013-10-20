@@ -21,12 +21,12 @@ module Dirt
       end
 
       # Skip comments
-      scan(%r"\s*(//|#).*") # Line
-      scan(%r"/\*.*\*/"m)   # Java/C
-      scan(/<!--.*-->/m)    # XML/HTML
-      scan(/{-.*-}/m)       # Haskell
-      scan(/\(\*.*\*\)/m)   # Coq/SML
-      scan(/""".*"""/m)     # Python
+      scan(%r"(^|\s+)(//|#|;;|--).*") # Java/C, Ruby/Shell, Lisp, Haskell
+      scan(%r"/\*.*\*/"m) # Java/C
+      scan(/<!--.*-->/m)  # XML/HTML
+      scan(/{-.*-}/m)     # Haskell
+      scan(/\(\*.*\*\)/m) # Coq/SML
+      scan(/""".*"""/m)   # Python
 
       # Skip strings
       scan(/".*[^\\]"/)
@@ -49,6 +49,9 @@ module Dirt
         script = parts[1] if script == 'env' && parts[1]
         '#!' + script[/\D+/]
       end
+    end
+
+    def scan_sgml_token
     end
   end
 end
