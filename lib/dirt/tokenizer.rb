@@ -36,8 +36,8 @@ module Dirt
       scan(/0x\h+/)
       scan(/\d+(\.\d*)?/)
 
-      return scan(/[.:;{}()\[\]]/) || # Punctuation
-        scan(/[\w@$][\w!?'-]*/) ||    # Regular tokens
+      return scan(/[,.:;{}()\[\]]/) || # Punctuation
+        scan(/[\w@$][\w!?']*/) ||    # Regular tokens
         scan(/[=<>+*\/%^&|!-]+/)      # Operators
     end
 

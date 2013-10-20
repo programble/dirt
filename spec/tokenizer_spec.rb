@@ -49,12 +49,11 @@ describe Dirt::Tokenizer do
   it 'tokenizes regular tokens' do
     tokenize('foo bar baz').should == %w[foo bar baz]
     tokenize("foo! foo? foo'").should == %w[foo! foo? foo']
-    tokenize('foo_bar foo-bar').should == %w[foo_bar foo-bar]
     tokenize('@foo $foo').should == %w[@foo $foo]
   end
 
   it 'tokenizes punctuation' do
-    tokenize('->.:;{}()[]').should == %w"-> . : ; { } ( ) [ ]"
+    tokenize(',.:;{}()[]').should == %w", . : ; { } ( ) [ ]"
   end
 
   it 'tokenizes operators' do
