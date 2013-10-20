@@ -26,10 +26,12 @@ describe Dirt::Tokenizer do
   end
 
   it 'skips line comments' do
-    tokenize('# foo').should == []
-    tokenize('// foo').should == []
-    tokenize(';; foo').should == []
-    tokenize('-- foo').should == []
+    %w[# // ;; --].each do |c|
+      tokenize("#{c} foo").should == []
+      tokenize("foo #{c} bar").should == ['foo']
+      tokenize("#{c} foo\nbar").should == ['bar']
+      tokenize("foo #{c} bar\nbaz").should == ['foo', 'baz']
+    end
   end
 
   it 'skips block comments' do
