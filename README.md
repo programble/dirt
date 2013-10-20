@@ -1,4 +1,4 @@
-# Dirt
+# Dirt [![Build Status](https://travis-ci.org/programble/dirt.png?branch=master)](https://travis-ci.org/programble/dirt) [![Coverage Status](https://coveralls.io/repos/programble/dirt/badge.png)](https://coveralls.io/r/programble/dirt)
 
 Language detection service
 
