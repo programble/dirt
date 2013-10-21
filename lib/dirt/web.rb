@@ -1,8 +1,12 @@
 require 'redis'
 require 'sinatra/base'
 
+require 'dirt/api'
+
 module Dirt
   class Web < Sinatra::Base
+    use API
+
     def redis
       @redis ||= Redis.new
     end
