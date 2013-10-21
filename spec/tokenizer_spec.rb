@@ -35,11 +35,11 @@ describe Dirt::Tokenizer do
   end
 
   it 'skips block comments' do
-    tokenize("/* foo\nbar */").should == []
-    tokenize("<!-- foo\nbar -->").should == []
-    tokenize("{- foo\nbar -}").should == []
-    tokenize("(* foo\nbar *)").should == []
-    tokenize(%Q["""foo\nbar"""]).should == []
+    {'/*' => '*/', '<!--' => '-->', '{-' => '-}', '(*' => '*)',
+     '"""' => '"""'}.each do |o, c|
+      tokenize("#{o} foo\nbar #{c}").should == []
+      tokenize("#{o} foo #{c} bar #{o} baz #{c}").should == ['bar']
+    end
   end
 
   it 'skips strings' do
