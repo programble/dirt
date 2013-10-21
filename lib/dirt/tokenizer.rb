@@ -82,7 +82,3 @@ module Dirt
     end
   end
 end
-
-if __FILE__ == $0
-  puts Dirt::Tokenizer.new(ARGF.read).tokenize.join(' ')
-end
