@@ -46,11 +46,12 @@ module Dirt
 
       # Skip comments
       scan(%r"(^|\s+)(//|#|;;|--).*") # Java/C, Ruby/Shell, Lisp, Haskell
-      scan(%r"/\*.*\*/"m) # Java/C
-      scan(/<!--.*-->/m)  # XML/HTML
-      scan(/{-.*-}/m)     # Haskell
-      scan(/\(\*.*\*\)/m) # Coq/SML
-      scan(/""".*"""/m)   # Python
+
+      scan_block_comment(%r"/\*", %r"\*/") # Java/C
+      scan_block_comment(/<!--/, /-->/)    # XML/HTML
+      scan_block_comment(/{-/, /-}/)       # Haskell
+      scan_block_comment(/\(\*/, /\*\)/)   # Coq/SML
+      scan_block_comment(/"""/, /"""/)     # Python
 
       # Skip strings
       scan(/".*[^\\]"/)
@@ -75,7 +76,8 @@ module Dirt
       end
     end
 
-    def scan_sgml_token
+    def scan_block_comment(open, close)
+      skip_until(close) if scan(open)
     end
   end
 end
