@@ -43,11 +43,11 @@ describe Dirt::Tokenizer do
   end
 
   it 'skips strings' do
-    tokenize(%q['' a "" b 'foo' c "bar" d '\'' e "\"" f]).should == 'abcdef'.chars
+    tokenize(%q['' a "" b 'foo' c "bar" d '\'' e "\"" f]).should == 'abcdef'.chars.to_a
   end
 
   it 'skips numbers' do
-    tokenize('0xFF a 1 b 1.0 c 1. d').should == 'abcd'.chars
+    tokenize('0xFF a 1 b 1.0 c 1. d').should == 'abcd'.chars.to_a
   end
 
   it 'tokenizes regular tokens' do
