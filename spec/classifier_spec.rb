@@ -37,4 +37,12 @@ describe Dirt::Classifier do
     scores = @classifier.classify(%w[quux])
     scores['A'].should be > scores['B']
   end
+
+  it 'classifies only against specific languages' do
+    @classifier.train!('A', %w[foo bar baz])
+    @classifier.train!('B', %w[foo bar baz])
+    @classifier.train!('C', %w[foo bar baz])
+
+    @classifier.classify(%w[foo bar baz], ['A', 'C']).keys.should == ['A', 'C']
+  end
 end
