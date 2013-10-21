@@ -32,8 +32,8 @@ module Dirt
     end
 
     def train!(language, tokens)
-      @redis.hincrby('languages', language, 1)
-      @redis.incr('languages:total')
+      @redis.hincrby('samples', language, 1)
+      @redis.incr('samples:total')
 
       @redis.pipelined do
         tokens.each do |token|
@@ -45,7 +45,7 @@ module Dirt
     end
 
     def classify(tokens, languages = nil)
-      languages ||= @redis.hkeys('languages')
+      languages ||= @redis.hkeys('samples')
 
       scores = Hash.new
 
@@ -69,7 +69,7 @@ module Dirt
     end
 
     def language_probability(language)
-      Math.log(@redis.hget('languages', language).to_f / @redis.get('languages:total').to_f)
+      Math.log(@redis.hget('samples', language).to_f / @redis.get('samples:total').to_f)
     end
   end
 end

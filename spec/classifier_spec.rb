@@ -12,9 +12,9 @@ describe Dirt::Classifier do
     @classifier.train!('A', %w[foo foo baz])
     @classifier.train!('B', %w[bar bar baz])
 
-    @redis.get('languages:total').to_i.should == 3
-    @redis.hget('languages', 'A').to_i.should == 2
-    @redis.hget('languages', 'B').to_i.should == 1
+    @redis.get('samples:total').to_i.should == 3
+    @redis.hget('samples', 'A').to_i.should == 2
+    @redis.hget('samples', 'B').to_i.should == 1
     @redis.get('tokens:total').to_i.should == 9
     @redis.get('tokens:A:total').to_i.should == 6
     @redis.get('tokens:B:total').to_i.should == 3
