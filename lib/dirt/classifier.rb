@@ -28,7 +28,7 @@ require 'redis'
 module Dirt
   class Classifier
     def initialize(redis = {})
-      @redis = Redis.new(redis)
+      @redis = redis.is_a?(Redis) ? redis : Redis.new(redis)
     end
 
     def train!(language, tokens)
