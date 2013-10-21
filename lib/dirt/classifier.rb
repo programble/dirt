@@ -47,14 +47,12 @@ module Dirt
     def classify(tokens, languages = nil)
       languages ||= @redis.hkeys('samples')
 
-      scores = Hash.new
-
-      languages.each do |language|
-        scores[language] = tokens_probability(tokens, language) +
-          language_probability(language)
+      Hash.new.tap do |scores|
+        languages.each do |language|
+          scores[language] = tokens_probability(tokens, language) +
+            language_probability(language)
+        end
       end
-
-      scores
     end
 
     def tokens_probability(tokens, language)
