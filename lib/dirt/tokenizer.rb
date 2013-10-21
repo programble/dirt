@@ -54,8 +54,9 @@ module Dirt
       scan_block_comment(/"""/, /"""/)     # Python
 
       # Skip strings
-      scan(/".*[^\\]"/)
-      scan(/'.*[^\\]'/)
+      scan(/''|""/) # Empty strings
+      skip_until(/[^\\]'/) if scan(/'/)
+      skip_until(/[^\\]"/) if scan(/"/)
 
       # Skip numbers
       scan(/0x\h+/)
