@@ -10,6 +10,7 @@ GEM
     daemons (1.1.9)
     diff-lcs (1.2.4)
     eventmachine (1.0.3)
+    liquid (2.5.1)
     mime-types (1.25)
     multi_json (1.8.1)
     rack (1.5.2)
@@ -50,6 +51,7 @@ PLATFORMS
 
 DEPENDENCIES
   coveralls
+  liquid (~> 2.5.0)
   rake (~> 10.1.0)
   redis (~> 3.0.0)
   rspec (~> 2.14.0)
