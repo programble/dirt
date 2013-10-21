@@ -47,7 +47,7 @@ describe Dirt::Tokenizer do
   end
 
   it 'skips numbers' do
-    tokenize('0xFF 1 1.0 1.').should == []
+    tokenize('0xFF a 1 b 1.0 c 1. d').should == 'abcd'.chars
   end
 
   it 'tokenizes regular tokens' do
