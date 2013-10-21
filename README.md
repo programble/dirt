@@ -1,6 +1,9 @@
 # Dirt [![Build Status](https://travis-ci.org/programble/dirt.png?branch=master)](https://travis-ci.org/programble/dirt) [![Coverage Status](https://coveralls.io/repos/programble/dirt/badge.png)](https://coveralls.io/r/programble/dirt)
 
-Language detection service
+Language detection service.
+
+Dirt's tokenizer and classifier are based on those of [GitHub
+Linguist](https://github.com/github/linguist).
 
 ## License
 
