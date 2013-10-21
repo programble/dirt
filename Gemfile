@@ -9,5 +9,6 @@ gem 'thin', :group => :thin
 group :development do
   gem 'rake', '~> 10.1.0'
   gem 'rspec', '~> 2.14.0'
+  gem 'rack-test', '~> 0.6.0'
   gem 'coveralls', :require => false
 end
