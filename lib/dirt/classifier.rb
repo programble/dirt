@@ -54,7 +54,7 @@ module Dirt
           language_probability(language)
       end
 
-      scores.sort_by {|x| x[1] }.reverse.map {|x| x.first }
+      scores
     end
 
     def tokens_probability(tokens, language)

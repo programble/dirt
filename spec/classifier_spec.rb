@@ -30,8 +30,11 @@ describe Dirt::Classifier do
     @classifier.train!('A', %w[foo foo baz])
     @classifier.train!('B', %w[bar bar baz])
 
-    @classifier.classify(%w[bar baz]).should == ['B', 'A']
-    @classifier.classify(%w[foo baz]).should == ['A', 'B']
-    @classifier.classify(%w[quux]).should == ['A', 'B']
+    scores = @classifier.classify(%w[bar baz])
+    scores['B'].should be > scores['A']
+    scores = @classifier.classify(%w[foo baz])
+    scores['A'].should be > scores['B']
+    scores = @classifier.classify(%w[quux])
+    scores['A'].should be > scores['B']
   end
 end
