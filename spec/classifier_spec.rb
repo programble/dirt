@@ -2,13 +2,9 @@ require 'dirt/classifier'
 
 describe Dirt::Classifier do
   before do
-    url = 'redis://localhost:6379/1'
-    @redis = Redis.new(url: url)
-    @classifier = described_class.new(url: url)
-  end
-
-  after do
-    @redis.del(@redis.keys('*'))
+    @redis = Redis.new(url: 'redis://localhost:6379/1')
+    @redis.del(@redis.keys('*')) unless @redis.keys('*').empty?
+    @classifier = described_class.new(@redis)
   end
 
   it 'trains' do
