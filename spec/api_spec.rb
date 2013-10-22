@@ -11,6 +11,6 @@ describe Dirt::API do
     get '/api'
     follow_redirect!
 
-    last_request.url.should end_with('/api/documentation')
+    last_request.path.should == '/api/documentation'
   end
 end
