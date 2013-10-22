@@ -16,5 +16,14 @@ module Dirt
     get '/' do
       liquid :index
     end
+
+    get '/api' do
+      redirect to('/api/documentation')
+    end
+
+    get '/api/:endpoint' do |endpoint|
+      pass if endpoint == 'documentation'
+      redirect to('/api/documentation#' + endpoint)
+    end
   end
 end
