@@ -14,11 +14,7 @@ module Dirt
     end
 
     get '/' do
-      liquid :index, locals: {
-        tokens: redis.get('tokens:total'),
-        samples: redis.get('samples:total'),
-        languages: redis.hlen('samples')
-      }
+      liquid :index
     end
   end
 end
