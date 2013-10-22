@@ -45,7 +45,7 @@ module Dirt
       end
 
       # Skip comments
-      scan(%r"(^|\s+)(//|#|;;|--).*") # Java/C, Ruby/Shell, Lisp, Haskell
+      scan(%r"(^|\s+)(//|#|;;|--) .*") # Java/C, Ruby/Shell, Lisp, Haskell
 
       scan_block_comment(%r"/\*", %r"\*/") # Java/C
       scan_block_comment(/<!--/, /-->/)    # XML/HTML
