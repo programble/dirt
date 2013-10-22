@@ -6,4 +6,11 @@ describe Dirt::API do
   def app
     described_class
   end
+
+  it 'redirects /api to documentation' do
+    get '/api'
+    follow_redirect!
+
+    last_request.url.should end_with('/api/documentation')
+  end
 end
