@@ -7,6 +7,8 @@ module Dirt
   class Web < Sinatra::Base
     use API
 
+    set :public_folder, File.join(File.dirname(__FILE__), 'public')
+
     def redis
       @redis ||= Redis.new
     end
