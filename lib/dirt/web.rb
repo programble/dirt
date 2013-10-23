@@ -18,12 +18,12 @@ module Dirt
     end
 
     get '/api' do
-      redirect to('/api/documentation')
+      redirect to('/api/doc')
     end
 
     get '/api/:endpoint' do |endpoint|
-      pass if endpoint == 'documentation'
-      redirect to('/api/documentation#' + endpoint)
+      pass if endpoint == 'doc'
+      redirect to('/api/doc#' + endpoint)
     end
 
     get '/demo' do
