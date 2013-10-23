@@ -1,7 +1,7 @@
 require 'dirt/api'
 
 # HACK: Make API use /1 for specs
-SpecRedis = Redis.new(uri: 'redis://localhost:6379/1')
+SpecRedis = Redis.new(url: 'redis://localhost:6379/1')
 class Dirt::API
   def redis
     SpecRedis
