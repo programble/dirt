@@ -45,4 +45,8 @@ describe Dirt::Classifier do
 
     @classifier.classify(%w[foo bar baz], ['A', 'C']).keys.should == ['A', 'C']
   end
+
+  it 'classifies with no tokens' do
+    @classifier.classify([]).should == {}
+  end
 end

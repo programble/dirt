@@ -63,7 +63,7 @@ module Dirt
         tokens.each {|t| @redis.hget("tokens:#{language}", t) }
       end.map do |n|
         Math.log(n ? n.to_f / language_total : 1.0 / total)
-      end.reduce(:+)
+      end.reduce(0.0, :+)
     end
 
     def language_probability(language)
