@@ -12,7 +12,7 @@ module Dirt
     end
 
     def sample_scores(params)
-      halt 400, 'Empty sample' if params[:sample].nil? || params[:sample].empty?
+      halt 400, 'No sample' unless params[:sample]
 
       tokenizer = Tokenizer.new(params[:sample])
       classifier = Classifier.new(redis)
