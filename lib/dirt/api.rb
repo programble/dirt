@@ -7,10 +7,6 @@ require 'dirt/classifier'
 
 module Dirt
   class API < Sinatra::Base
-    def redis
-      @redis ||= Redis.new
-    end
-
     def int_param(key, default)
       params[key] ? Integer(params[key]).tap {|i| raise if i < 0 } : default
     rescue
@@ -21,7 +17,7 @@ module Dirt
       halt 400, 'No sample' unless params[:sample]
 
       tokenizer = Tokenizer.new(params[:sample])
-      classifier = Classifier.new(redis)
+      classifier = Classifier.new
 
       classifier.classify(tokenizer.tokenize)
     end
