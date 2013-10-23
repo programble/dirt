@@ -14,3 +14,5 @@ end
 
 require 'rspec'
 require 'rack/test'
+
+ENV['REDIS_URL'] = 'redis://localhost:6379/1'

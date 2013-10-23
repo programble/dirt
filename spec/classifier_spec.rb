@@ -2,7 +2,7 @@ require 'dirt/classifier'
 
 describe Dirt::Classifier do
   before do
-    @redis = Redis.new(url: 'redis://localhost:6379/1')
+    @redis = Redis.new
     @redis.del(@redis.keys('*')) unless @redis.keys('*').empty?
     @classifier = described_class.new(@redis)
   end

@@ -1,20 +1,13 @@
 require 'dirt/api'
 
-# HACK: Make API use /1 for specs
-SpecRedis = Redis.new(url: 'redis://localhost:6379/1')
-class Dirt::API
-  def redis
-    SpecRedis
-  end
-end
-
 describe Dirt::API do
   include Rack::Test::Methods
 
   before do
-    SpecRedis.del(SpecRedis.keys('*')) unless SpecRedis.keys('*').empty?
+    redis = Redis.new
+    redis.del(redis.keys('*')) unless redis.keys('*').empty?
 
-    classifier = Dirt::Classifier.new(SpecRedis)
+    classifier = Dirt::Classifier.new(redis)
     ('A'..'Z').each {|l| classifier.train!(l, %w[foo bar baz]) }
   end
 
