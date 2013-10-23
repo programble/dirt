@@ -25,5 +25,14 @@ module Dirt
       pass if endpoint == 'documentation'
       redirect to('/api/documentation#' + endpoint)
     end
+
+    get '/demo' do
+      liquid :demo, locals: {
+        title: 'Demo',
+        demo: 'active',
+        css: ['demo'],
+        js: ['demo']
+      }
+    end
   end
 end

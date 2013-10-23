@@ -1,0 +1,26 @@
+<p class="lead">
+  This demo uses the <code>scores</code>
+  <a href="/api/documentation#scores">API endpoint</a>.
+</p>
+
+<div class="row">
+  <div class="col-md-6">
+    <textarea class="form-control" rows="20"
+              placeholder="Paste sample here..." spellcheck="false"></textarea>
+  </div>
+
+  <div class="col-md-6">
+    <table>
+      {% for i in (1..10) %}
+        <tr class="fade">
+          <td class="col-xs-2"></td>
+          <td class="col-xs-10">
+            <div class="progress">
+              <div class="progress-bar"></div>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
