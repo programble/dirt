@@ -8,19 +8,19 @@ describe Dirt::API do
   end
 
   ['detect', 'scores'].each do |endpoint|
-    path = "/api/#{endpoint}"
-
     context endpoint do
+      endpoint = "/api/#{endpoint}"
+
       it 'returns bad request for empty sample' do
-        post path
+        post endpoint
         last_response.status.should == 400
 
-        post path, sample: ''
+        post endpoint, sample: ''
         last_response.status.should == 400
       end
 
       it 'returns a JSON array' do
-        post path, sample: 'foo'
+        post endpoint, sample: 'foo'
 
         last_response['content-type'].should start_with('application/json')
         JSON.parse(last_response.body).should be_an(Array)
