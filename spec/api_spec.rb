@@ -19,6 +19,15 @@ describe Dirt::API do
     ('A'..'Z').each {|l| classifier.train!(l, %w[foo bar baz]) }
   end
 
+  it 'returns a version JSON hash' do
+    get('/api/version')
+    last_response.should be_ok
+    last_response['content-type'].should start_with('application/json')
+    json_body.should be_a(Hash)
+    json_body['string'].should be_a(String)
+    %w[major minor patch].each {|k| json_body[k].should be_a(Fixnum) }
+  end
+
   def detect(*args)
     post('/api/detect', *args)
   end

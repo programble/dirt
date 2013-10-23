@@ -7,6 +7,13 @@ require 'dirt/classifier'
 
 module Dirt
   class API < Sinatra::Base
+    VERSION = {string: '0.1.0', major: 0, minor: 1, patch: 0}
+
+    get '/api/version' do
+      content_type :json
+      VERSION.to_json
+    end
+
     def int_param(key, default)
       params[key] ? Integer(params[key]).tap {|i| raise if i < 0 } : default
     rescue
