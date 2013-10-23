@@ -7,20 +7,24 @@ describe Dirt::API do
     described_class
   end
 
-  context 'detect' do
-    it 'returns bad request for empty sample' do
-      post '/api/detect'
-      last_response.status.should == 400
+  ['detect', 'scores'].each do |endpoint|
+    path = "/api/#{endpoint}"
 
-      post '/api/detect', sample: ''
-      last_response.status.should == 400
-    end
+    context endpoint do
+      it 'returns bad request for empty sample' do
+        post path
+        last_response.status.should == 400
 
-    it 'returns a JSON array' do
-      post '/api/detect', sample: 'foo'
+        post path, sample: ''
+        last_response.status.should == 400
+      end
 
-      last_response['content-type'].should start_with('application/json')
-      JSON.parse(last_response.body).should be_an(Array)
+      it 'returns a JSON array' do
+        post path, sample: 'foo'
+
+        last_response['content-type'].should start_with('application/json')
+        JSON.parse(last_response.body).should be_an(Array)
+      end
     end
   end
 end
