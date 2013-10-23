@@ -7,11 +7,15 @@ require 'dirt/classifier'
 
 module Dirt
   class API < Sinatra::Base
+    def redis
+      @redis ||= Redis.new
+    end
+
     def sample_scores(params)
       halt 400, 'Empty sample' if params[:sample].nil? || params[:sample].empty?
 
       tokenizer = Tokenizer.new(params[:sample])
-      classifier = Classifier.new
+      classifier = Classifier.new(redis)
 
       classifier.classify(tokenizer.tokenize)
     end
