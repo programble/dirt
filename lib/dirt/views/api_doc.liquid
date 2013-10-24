@@ -1,0 +1,49 @@
+<h1>API Version {{ api.version }} Documentation</h1>
+
+<p>
+API method paths begin with <code>/api</code>.
+
+<p>
+All API methods return JSON object bodies with the
+<code>Content-Type: application/json</code> header.
+
+<p>
+For <code>POST</code> methods, parameters must be form-encoded, i.e. sent with
+the <code>Content-Type: application/x-www-form-urlencoded</code> header. This
+can be done using the <code>-F</code> option to <code>curl</code>, or the
+<code>-f</code> option to <code>http</code>
+(<a href="http://httpie.org">HTTPie</a>).
+
+<hr>
+<h2 id="version">
+  <code>version</code> method
+</h2>
+
+<p>
+<span class="label label-default"
+      title="Will not change in future API versions">
+  frozen
+</span>
+
+<p>
+Get the current version of the API.
+
+<p>
+<pre>
+<span class="text-primary">GET</span> <span class="text-danger">/api/version</span>
+</pre>
+
+<p>
+Returns a hash containing integer values in the <code>major</code>,
+<code>minor</code> and <code>patch</code> keys, and a string representation in
+the <code>string</code> key.
+
+<p>
+<pre>
+{
+    <span class="text-info">"major"</span>: <span class="text-danger">0</span>,
+    <span class="text-info">"minor"</span>: <span class="text-danger">1</span>,
+    <span class="text-info">"patch"</span>: <span class="text-danger">0</span>,
+    <span class="text-info">"string"</span>: <span class="text-info">"0.1.0"</span>
+}
+</pre>

@@ -34,5 +34,13 @@ module Dirt
         js: ['demo']
       }
     end
+
+    get '/api/doc' do
+      liquid :api_doc, locals: {
+        title: 'API Documentation',
+        doc: 'active',
+        version: API::VERSION[:string]
+      }
+    end
   end
 end
