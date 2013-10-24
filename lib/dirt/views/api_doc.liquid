@@ -20,22 +20,22 @@ All methods return JSON object bodies with the
 For <code>POST</code> methods, parameters must be form-encoded, i.e. sent with
 the <code>Content-Type: application/x-www-form-urlencoded</code> header.
 
-<hr>
+<h3>Meta</h3>
 
-<h3 id="version">
-  <code>version</code>
+<h4 id="meta/version">
+  <code>meta/version</code>
   <span class="label label-default"
         title="Will not change in future API versions">
     frozen
   </span>
-</h3>
+</h4>
 
 <p>
 Get the current version of the API.
 
 <p>
 <pre>
-<span class="text-primary">GET</span> <span class="text-danger">/api/version</span>
+<span class="text-primary">GET</span> <span class="text-danger">/api/meta/version</span>
 </pre>
 
 <p>
@@ -53,9 +53,11 @@ the <code>string</code> key.
 }
 </pre>
 
-<h3 id="classify">
+<h3>Classification</h3>
+
+<h4 id="classify">
   <code>classify</code>
-</h3>
+</h4>
 
 <p>
 Classify the language of a code sample.
@@ -84,12 +86,14 @@ probable.
 ]
 </pre>
 
-<h3 id="classify/scores">
+<hr>
+
+<h4 id="classify/scores">
   <code>classify/scores</code>
-</h3>
+</h4>
 
 <p>
-Classify the language of a code sample.
+Classify the language of a code sample with normalized scores.
 
 <p>
 <pre>
@@ -117,12 +121,14 @@ and 1.0.
 ]
 </pre>
 
-<h3 id="classify/raw">
+<hr>
+
+<h4 id="classify/raw">
   <code>classify/raw</code>
-</h3>
+</h4>
 
 <p>
-Classify the language of a code sample.
+Classify the language of a code sample with logarithmic probabilities.
 
 <p>
 <pre>
