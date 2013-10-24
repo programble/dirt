@@ -3,14 +3,6 @@ require 'dirt/api'
 describe Dirt::API do
   include Rack::Test::Methods
 
-  def app
-    described_class
-  end
-
-  def json_body
-    JSON.parse(last_response.body)
-  end
-
   before do
     redis = Redis.new
     redis.del(redis.keys('*')) unless redis.keys('*').empty?

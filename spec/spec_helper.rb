@@ -13,6 +13,16 @@ SimpleCov.start do
 end
 
 require 'rspec'
+
 require 'rack/test'
+module Rack::Test::Methods
+  def app
+    described_class
+  end
+
+  def json_body
+    @json_body ||= JSON.parse(last_response.body)
+  end
+end
 
 ENV['REDIS_URL'] = 'redis://localhost:6379/1'
