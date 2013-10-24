@@ -17,15 +17,6 @@ module Dirt
       liquid :index
     end
 
-    get '/api' do
-      redirect to('/api/doc')
-    end
-
-    get '/api/:endpoint' do |endpoint|
-      pass if endpoint == 'doc'
-      redirect to('/api/doc#' + endpoint)
-    end
-
     get '/demo' do
       liquid :demo, locals: {
         title: 'Demo',
@@ -41,6 +32,18 @@ module Dirt
         doc: 'active',
         version: API::VERSION[:string]
       }
+    end
+
+    get '/api' do
+      redirect to('/api/doc')
+    end
+
+    get '/api/:method' do |method|
+      redirect to("/api/doc##{method}")
+    end
+
+    get '/api/:m1/:m2' do |m1, m2|
+      redirect to("/api/doc##{m1}/#{m2}")
     end
   end
 end
