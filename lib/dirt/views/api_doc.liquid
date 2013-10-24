@@ -1,22 +1,22 @@
-<h1>API Version {{ version }} Documentation</h1>
-
-<p>
-API method paths begin with <code>/api</code>.
-
-<p>
-All API methods return JSON object bodies with the
-<code>Content-Type: application/json</code> header.
-
-<p>
-For <code>POST</code> methods, parameters must be form-encoded, i.e. sent with
-the <code>Content-Type: application/x-www-form-urlencoded</code> header. This
-can be done using the <code>-F</code> option to <code>curl</code>, or the
-<code>-f</code> option to <code>http</code>
-(<a href="http://httpie.org">HTTPie</a>).
+<div class="page-header">
+  <h1>API Version {{ version }} Documentation</h1>
+</div>
 
 <h3 id="methods">
   API Methods
 </h3>
+
+<p>
+Method paths begin with <code>/api</code>.
+
+<p>
+All methods return JSON object bodies with the
+<code>Content-Type: application/json</code> header.
+
+<p>
+For <code>POST</code> methods, parameters must be form-encoded, i.e. sent with
+the <code>Content-Type: application/x-www-form-urlencoded</code> header.
+
 <hr>
 
 <h3 id="version">
@@ -100,7 +100,7 @@ Classify the language of a code sample.
 
 <p>
 Returns an array of pairs of language name strings and score floats, ordered
-most probable to least probable. The scores are normalized so that the most
+most probable to least probable. The scores are normalized such that the most
 probable language has a score of 1.0, and all others have a score between 0.0
 and 1.0.
 
