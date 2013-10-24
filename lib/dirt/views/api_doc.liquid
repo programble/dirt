@@ -14,16 +14,18 @@ can be done using the <code>-F</code> option to <code>curl</code>, or the
 <code>-f</code> option to <code>http</code>
 (<a href="http://httpie.org">HTTPie</a>).
 
+<h3 id="methods">
+  API Methods
+</h3>
 <hr>
-<h2 id="version">
-  <code>version</code> method
-</h2>
 
-<p>
-<span class="label label-default"
-      title="Will not change in future API versions">
-  frozen
-</span>
+<h3 id="version">
+  <code>version</code>
+  <span class="label label-default"
+        title="Will not change in future API versions">
+    frozen
+  </span>
+</h3>
 
 <p>
 Get the current version of the API.
@@ -45,5 +47,100 @@ the <code>string</code> key.
     <span class="text-info">"minor"</span>: <span class="text-danger">1</span>,
     <span class="text-info">"patch"</span>: <span class="text-danger">0</span>,
     <span class="text-info">"string"</span>: <span class="text-info">"0.1.0"</span>
+}
+</pre>
+
+<h3 id="classify">
+  <code>classify</code>
+</h3>
+
+<p>
+Classify the language of a code sample.
+
+<p>
+<pre>
+<span class="text-primary">POST</span> <span class="text-danger">/api/classify</span>
+</pre>
+
+<p>
+<ul class="list-unstyled">
+  <li><code>sample</code>: the code sample</li>
+</ul>
+
+<p>
+Returns an array of language name strings, ordered most probable to least
+probable.
+
+<p>
+<pre>
+[
+    <span class="text-info">"Ruby"</span>,
+    <span class="text-info">"Clojure"</span>,
+    <span class="text-info">"JavaScript"</span>,
+    <span class="text-muted">...</span>
+]
+</pre>
+
+<h3 id="classify/scores">
+  <code>classify/scores</code>
+</h3>
+
+<p>
+Classify the language of a code sample.
+
+<p>
+<pre>
+<span class="text-primary">POST</span> <span class="text-danger">/api/classify/scores</span>
+</pre>
+
+<p>
+<ul class="list-unstyled">
+  <li><code>sample</code>: the code sample</li>
+</ul>
+
+<p>
+Returns an array of pairs of language name strings and score floats, ordered
+most probable to least probable. The scores are normalized so that the most
+probable language has a score of 1.0, and all others have a score between 0.0
+and 1.0.
+
+<p>
+<pre>
+[
+    [ <span class="text-info">"Ruby"</span>, <span class="text-danger">1.0</span> ],
+    [ <span class="text-info">"Clojure"</span>, <span class="text-danger">0.78</span> ],
+    [ <span class="text-info">"JavaScript"</span>, <span class="text-danger">0.48</span> ],
+    <span class="text-muted">...</span>
+]
+</pre>
+
+<h3 id="classify/raw">
+  <code>classify/raw</code>
+</h3>
+
+<p>
+Classify the language of a code sample.
+
+<p>
+<pre>
+<span class="text-primary">POST</span> <span class="text-danger">/api/classify/raw</span>
+</pre>
+
+<p>
+<ul class="list-unstyled">
+  <li><code>sample</code>: the code sample</li>
+</ul>
+
+<p>
+Returns a hash of language name strings to score floats. The scores are raw
+logarithmic probabilities.
+
+<p>
+<pre>
+{
+    <span class="text-info">"Ruby"</span>: <span class="text-danger">-346.887</span>,
+    <span class="text-info">"Clojure"</span>: <span class="text-danger">-476.993</span>,
+    <span class="text-info">"JavaScript"</span>: <span class="text-danger">-877.438</span>,
+    <span class="text-muted">...</span>
 }
 </pre>
