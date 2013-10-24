@@ -5,9 +5,9 @@
   </h1>
 </div>
 
-<h3 id="methods">
+<h1 id="methods">
   API Methods
-</h3>
+</h1>
 
 <p>
 Method paths begin with <code>/api</code>.
@@ -20,15 +20,17 @@ All methods return JSON object bodies with the
 For <code>POST</code> methods, parameters must be form-encoded, i.e. sent with
 the <code>Content-Type: application/x-www-form-urlencoded</code> header.
 
-<h3>Meta</h3>
+<h2 id="meta">
+  Meta
+</h2>
 
-<h4 id="meta/version">
+<h3 id="meta/version">
   <code>meta/version</code>
   <span class="label label-default"
         title="Will not change in future API versions">
     frozen
   </span>
-</h4>
+</h3>
 
 <p>
 Get the current version of the API.
@@ -53,11 +55,13 @@ the <code>string</code> key.
 }
 </pre>
 
-<h3>Classification</h3>
+<h2 id="classification">
+  Classification
+</h2>
 
-<h4 id="classify">
+<h3 id="classify">
   <code>classify</code>
-</h4>
+</h3>
 
 <p>
 Classify the language of a code sample.
@@ -86,11 +90,9 @@ probable.
 ]
 </pre>
 
-<hr>
-
-<h4 id="classify/scores">
+<h3 id="classify/scores">
   <code>classify/scores</code>
-</h4>
+</h3>
 
 <p>
 Classify the language of a code sample with normalized scores.
@@ -121,11 +123,9 @@ and 1.0.
 ]
 </pre>
 
-<hr>
-
-<h4 id="classify/raw">
+<h3 id="classify/raw">
   <code>classify/raw</code>
-</h4>
+</h3>
 
 <p>
 Classify the language of a code sample with logarithmic probabilities.
