@@ -64,7 +64,7 @@ module Dirt
 
       return scan(/[,.:;{}()\[\]]/) || # Punctuation
         scan(/[\w@$][\w!?']*/) ||      # Regular tokens
-        scan(/[=<>+*\/%^&|!-]+/)       # Operators
+        scan(/[=<>+*\/%^&|!\\-]+/)       # Operators
     end
 
     # Removes /usr/bin/env and trailing number (e.g. python3 -> python)
