@@ -16,6 +16,11 @@ module Dirt
         classifier.classify(tokenizer.tokenize)
       end
 
+      post '/api/classify' do
+        content_type :json
+        classify(params).sort_by {|l, s| -s }.map {|l, s| l }.to_json
+      end
+
       post '/api/classify/raw' do
         content_type :json
         classify(params).to_json
