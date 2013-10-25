@@ -2,10 +2,13 @@ require 'redis'
 require 'sinatra/base'
 
 require 'dirt/api'
+require 'dirt/api/meta'
+require 'dirt/api/classify'
 
 module Dirt
   class Web < Sinatra::Base
-    use API
+    use API::Meta
+    use API::Classify
 
     set :public_folder, File.join(File.dirname(__FILE__), 'public')
 
