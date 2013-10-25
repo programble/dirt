@@ -15,6 +15,7 @@ end
 require 'rspec'
 
 require 'rack/test'
+require 'json'
 module Rack::Test::Methods
   def app
     described_class
