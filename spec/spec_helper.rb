@@ -27,3 +27,4 @@ module Rack::Test::Methods
 end
 
 ENV['REDIS_URL'] = 'redis://localhost:6379/1'
+ENV['RACK_ENV'] = 'test'
