@@ -52,7 +52,7 @@ describe Dirt::Tokenizer do
 
   it 'tokenizes regular tokens' do
     tokenize('foo bar baz').should == %w[foo bar baz]
-    tokenize("foo! foo? foo'").should == %w[foo! foo? foo']
+    tokenize("foo! foo? foo' foo=").should == %w[foo! foo? foo' foo=]
     tokenize('@foo $foo').should == %w[@foo $foo]
   end
 
