@@ -56,6 +56,10 @@ describe Dirt::Tokenizer do
     tokenize('@foo $foo').should == %w[@foo $foo]
   end
 
+  it 'tokenizes SGML tags' do
+    tokenize('<span>foo</span>').should == %w[<span> foo </span>]
+  end
+
   it 'tokenizes punctuation' do
     tokenize(',.:;{}()[]').should == %w", . : ; { } ( ) [ ]"
   end

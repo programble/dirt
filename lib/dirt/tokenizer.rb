@@ -63,6 +63,7 @@ module Dirt
       scan(/\d+(\.\d*)?/)
 
       return scan(/[,.:;{}()\[\]]/) || # Punctuation
+        scan(%r"</?\w+>?") ||          # SGML tags
         scan(/[\w@$]\w*[!?'=]?/) ||    # Regular tokens
         scan(/[=<>+*\/%^&|!\\-]+/)     # Operators
     end
