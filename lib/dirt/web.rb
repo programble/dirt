@@ -24,7 +24,6 @@ module Dirt
       liquid :demo, locals: {
         title: 'Demo',
         demo: 'active',
-        css: ['demo'],
         js: ['demo']
       }
     end
