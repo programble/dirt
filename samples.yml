@@ -90,7 +90,107 @@ Scala:
 Java:
   glob: '*.java'
   git:
-    - https://github.com/clojure/clojure
     - https://github.com/functionaljava/functionaljava
     - https://github.com/spring-projects/spring-framework
     - https://github.com/wildfly/wildfly
+
+Clojure:
+  glob: '*.clj'
+  git:
+    - https://github.com/Raynes/tryclojure
+    - https://github.com/Raynes/fs.git
+
+Idris:
+  glob: '*.idr'
+  git:
+    - https://github.com/idris-lang/Idris-dev/
+    - https://github.com/idris-hackers/IdrisWeb
+
+Agda:
+  glob: '*.agda'
+  git:
+    - https://github.com/UlfNorell/agda
+
+Coq:
+  glob: '*.v'
+  git:
+    - https://github.com/HoTT/HoTT
+    - https://github.com/sfja/sfja
+
+Ada:
+  glob: '*.ada'
+  git:
+    - https://github.com/Lucretia/tamp
+    - https://github.com/AdaDoom3/AdaDoom3
+
+'C#':
+  glob: '*.cs'
+  git:
+    - https://github.com/opserver/Opserver
+    - https://github.com/ServiceStack/ServiceStack
+
+D:
+  glob: '*.d'
+  git:
+    - https://github.com/rejectedsoftware/vibe.d
+    - https://github.com/D-Programming-Language/phobos
+
+Erlang:
+  glob: '*.erl'
+  git:
+    - https://github.com/erlang/otp
+
+Elixir:
+  glob: ['*.exs', '*.ex']
+  git:
+    - https://github.com/elixir-lang/elixir
+
+Go:
+  glob: '*.go'
+  git:
+    - https://github.com/limetext/lime
+    - https://github.com/hashicorp/serf
+
+Io:
+  glob: '*.io'
+  git:
+    - https://github.com/cdcarter/backpacking
+    - https://github.com/josip/eerie
+    - https://github.com/fredreichbier/iorm
+
+'Standard ML':
+  glob: ['*.sml', '*.sig', '*.fun']
+  git:
+    - https://github.com/MLton/mlton
+
+Racket:
+  glob: '*.rkt'
+  git:
+    - https://github.com/plt/racket.git
+
+R:
+  glob: '*.r'
+  git:
+    - https://github.com/yihui/knitr.git
+
+Rust:
+  glob: '*.rs'
+  git:
+    - https://github.com/mozilla/rust
+
+Scheme:
+  glob: '*.scm'
+  git:
+    - https://github.com/marcomaggi/vicare
+
+Tcl:
+  glob: '*.tcl'
+  git:
+    - https://github.com/zdia/gorilla
+    - https://github.com/horgh/twitter-tcl
+
+'Visual Basic':
+  glob: '*.vb'
+  git:
+    - https://github.com/jjmartres/Zabbix
+    - https://github.com/rmcardle/mRemoteNG
