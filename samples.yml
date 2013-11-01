@@ -10,9 +10,7 @@ Haskell:
   glob: '*.hs'
   git:
     - https://github.com/ghc/ghc
-    - https://github.com/haskell/cabal
     - https://github.com/faylang/fay
-    - https://github.com/evancz/Elm
     - https://github.com/yesodweb/yesod
     - https://github.com/jaspervdj/hakyll
 
@@ -20,22 +18,17 @@ Perl:
   glob: '*.pl'
   git:
     - https://github.com/Perl/perl5
-    - https://github.com/rakudo/rakudo
     - https://github.com/munin-monitoring/munin
-    - https://github.com/duckduckgo/community-platform
 
 Ruby:
   glob: ['*.rb', 'Gemfile', 'Rakefile', '*.gemspec']
   git:
     - https://github.com/diaspora/diaspora
     - https://github.com/rails/rails
-    - https://github.com/ruby/ruby
-    - https://github.com/discourse/discourse
 
 Python:
   glob: '*.py'
   git:
-    - https://github.com/python/cpython
     - https://github.com/django/django
     - https://github.com/ansible/ansible
     - https://github.com/getsentry/sentry
@@ -45,7 +38,6 @@ C:
   git:
     - https://github.com/python/cpython
     - https://github.com/git/git
-    - https://github.com/torvalds/linux
     - https://github.com/ruby/ruby
 
 C++:
@@ -71,7 +63,6 @@ CoffeeScript:
   git:
     - https://github.com/harvesthq/chosen
     - https://github.com/jashkenas/coffee-script
-    - https://github.com/travis-ci/travis-web
 
 JavaScript:
   glob: '*.js'
@@ -79,7 +70,6 @@ JavaScript:
     - https://github.com/adobe/brackets
     - https://github.com/facebook/javelin
     - https://github.com/facebook/react
-    - https://github.com/joyent/node
     - https://github.com/jquery/jquery
 
 CSS:
@@ -94,7 +84,6 @@ Scala:
   git:
     - https://github.com/playframework/playframework
     - https://github.com/scala/scala
-    - https://github.com/akka/akka
     - https://github.com/scalaz/scalaz
     - https://github.com/spray/spray
 
@@ -102,9 +91,6 @@ Java:
   glob: '*.java'
   git:
     - https://github.com/clojure/clojure
-    - https://github.com/jhy/jsoup
     - https://github.com/functionaljava/functionaljava
     - https://github.com/spring-projects/spring-framework
-    - https://github.com/netty/netty
-    - https://github.com/jenkinsci/jenkins
     - https://github.com/wildfly/wildfly
