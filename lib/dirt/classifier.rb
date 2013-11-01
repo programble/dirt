@@ -37,7 +37,7 @@ module Dirt
 
       @redis.pipelined do
         tokens.each do |token|
-          @redis.hincrby("tokens:#{language}", token, 1)
+          @redis.zincrby("tokens:#{language}", 1, token)
           @redis.incr("tokens:#{language}:total")
           @redis.incr('tokens:total')
         end
@@ -60,7 +60,7 @@ module Dirt
       total = @redis.get('tokens:total').to_f
 
       @redis.pipelined do
-        tokens.each {|t| @redis.hget("tokens:#{language}", t) }
+        tokens.each {|t| @redis.zscore("tokens:#{language}", t) }
       end.map do |n|
         Math.log(n ? n.to_f / language_total : 1.0 / total)
       end.reduce(0.0, :+)
