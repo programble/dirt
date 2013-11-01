@@ -4,11 +4,13 @@ require 'sinatra/base'
 require 'dirt/api'
 require 'dirt/api/meta'
 require 'dirt/api/classify'
+require 'dirt/api/stats'
 
 module Dirt
   class Web < Sinatra::Base
     use API::Meta
     use API::Classify
+    use API::Stats
 
     set :public_folder, File.join(File.dirname(__FILE__), 'public')
 
