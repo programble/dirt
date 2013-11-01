@@ -60,7 +60,7 @@ samples.each do |language, struct|
     path = "#{lang_path}/#{repo.split('/').last}"
 
     file path do |t|
-      sh "git clone --depth 1 #{repo} #{path}"
+      sh "git clone --depth 1 #{repo} '#{path}'"
     end
 
     task :samples => [path]
