@@ -30,6 +30,13 @@ module Dirt
       }
     end
 
+    get '/stats' do
+      liquid :stats, locals: {
+        title: 'Statistics',
+        stats: 'active'
+      }
+    end
+
     get '/api/doc' do
       liquid :api_doc, locals: {
         title: 'API Documentation',
