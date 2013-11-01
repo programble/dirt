@@ -153,3 +153,147 @@ logarithmic probabilities.
     <span class="text-muted">...</span>
 }
 </pre>
+
+<h2 id="statistics">
+  Statistics
+</h2>
+
+<h3 id="stats">
+  <code>stats</code>
+</h3>
+
+<p>
+Get statistics totals.
+
+<p>
+<pre>
+<span class="text-primary">GET</span> <span class="text-danger">/api/stats</span>
+</pre>
+
+<p>
+Returns a hash of field names to integer totals. Returned fields are
+<code>languages</code>, <code>samples</code> and <code>tokens</code>.
+
+<p>
+<pre>
+{
+    <span class="text-info">"languages"</span>: <span class="text-danger">25</span>,
+    <span class="text-info">"samples"</span>: <span class="text-danger">150</span>,
+    <span class="text-info">"tokens"</span>: <span class="text-danger">2500</span>
+}
+</pre>
+
+<h3 id="stats/languages">
+  <code>stats/languages</code>
+</h3>
+
+<p>
+List all known languages.
+
+<p>
+<pre>
+<span class="text-primary">GET</span> <span class="text-danger">/api/stats/languages</span>
+</pre>
+
+<p>
+Returns an array of language name strings.
+
+<p>
+<pre>
+[
+    <span class="text-info">"Ruby"</span>,
+    <span class="text-info">"Clojure"</span>,
+    <span class="text-info">"JavaScript"</span>,
+    <span class="text-muted">...</span>
+]
+</pre>
+
+<h3 id="stats/samples">
+  <code>stats/samples</code>
+</h3>
+
+<p>
+Get the number of samples for each language.
+
+<p>
+<pre>
+<span class="text-primary">GET</span> <span class="text-danger">/api/stats/samples</span>
+</pre>
+
+<p>
+Returns a hash of language name strings to sample count integers.
+
+<p>
+<pre>
+{
+    <span class="text-info">"Ruby"</span>: <span class="text-danger">750</span>,
+    <span class="text-info">"Clojure"</span>: <span class="text-danger">625</span>,
+    <span class="text-info">"JavaScript"</span>: <span class="text-danger">865</span>,
+    <span class="text-muted">...</span>
+}
+</pre>
+
+<h3 id="stats/tokens">
+  <code>stats/tokens</code>
+</h3>
+
+<p>
+Get the total number of tokens for each language.
+
+<p>
+<pre>
+<span class="text-primary">GET</span> <span class="text-danger">/api/stats/tokens</span>
+</pre>
+
+<p>
+Returns a hash of language name strings to token count integers.
+
+<p>
+<pre>
+{
+    <span class="text-info">"Ruby"</span>: <span class="text-danger">1255</span>,
+    <span class="text-info">"Clojure"</span>: <span class="text-danger">1375</span>,
+    <span class="text-info">"JavaScript"</span>: <span class="text-danger">1005</span>,
+    <span class="text-muted">...</span>
+}
+</pre>
+
+<h3 id="stats/language">
+  <code>stats/language</code>
+</h3>
+
+<p>
+Get statistics about a language.
+
+<p>
+<pre>
+<span class="text-primary">GET</span> <span class="text-danger">/api/stats/language</span>
+</pre>
+
+<p>
+<ul class="list-unstyled">
+  <li><code>language</code>: the name of the language</li>
+</ul>
+
+<p>
+Returns a hash with the following fields:
+
+<ul class="list-unstyled">
+  <li><code>samples</code>: integer number of samples</li>
+  <li><code>tokens</code>: integer total number of tokens</li>
+  <li><code>top</code>: array of top 50 pairs of token strings and count integers</li>
+</ul>
+
+<p>
+<pre>
+{
+    <span class="text-info">"samples"</span>: <span class="text-danger">750</span>,
+    <span class="text-info">"tokens"</span>: <span class="text-danger">1255</span>,
+    <span class="text-info">"top"</span>: [
+        [ <span class="text-info">","</span>, <span class="text-danger">701056</span> ],
+        [ <span class="text-info">"["</span>, <span class="text-danger">274493</span> ],
+        [ <span class="text-info">"]"</span>, <span class="text-danger">274423</span> ],
+        <span class="text-muted">...</span>
+    ]
+}
+</pre>
