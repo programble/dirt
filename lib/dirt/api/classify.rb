@@ -16,8 +16,11 @@ module Dirt
         classifier.classify(tokenizer.tokenize)
       end
 
-      post '/api/classify' do
+      before do
         content_type :json
+      end
+
+      post '/api/classify' do
         classify(params).sort_by {|l, s| -s }.map {|l, s| l }.to_json
       end
 
@@ -25,12 +28,10 @@ module Dirt
         raw = classify(params)
         max = -1 / raw.values.max
 
-        content_type :json
         raw.sort_by {|l, s| -s }.map {|l, s| [l, -1 / s / max] }.to_json
       end
 
       post '/api/classify/raw' do
-        content_type :json
         classify(params).to_json
       end
     end
