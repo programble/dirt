@@ -41,8 +41,8 @@ module Dirt
         language = params[:language]
         halt 404, 'Unknown language' unless redis.exists("tokens:#{language}")
         {
-          samples: redis.hget('samples', language),
-          tokens: redis.get("tokens:#{language}:total"),
+          samples: redis.hget('samples', language).to_i,
+          tokens: redis.get("tokens:#{language}:total").to_i,
           top: redis.zrevrange("tokens:#{language}",
                                0, 49, with_scores: true).map do |token, score|
             [token, score.to_i]
