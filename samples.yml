@@ -99,7 +99,7 @@ Haskell:
     - https://github.com/faylang/fay
     - https://github.com/yesodweb/yesod
     - https://github.com/jaspervdj/hakyll
-    - https://github.com/faylang/fay
+    - https://github.com/yi-editor/yi
 
 Idris:
   glob: '*.idr'
