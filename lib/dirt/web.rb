@@ -29,7 +29,9 @@ module Dirt
     get '/stats' do
       liquid :stats, locals: {
         title: 'Statistics',
-        stats: 'active'
+        stats: 'active',
+        css: ['stats'],
+        js: ['stats']
       }
     end
 

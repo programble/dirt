@@ -1,4 +1,9 @@
 <div class="page-header">
+  <div class="pull-right">
+    <button type="button" id="refresh" class="btn btn-success">
+      <i class="fa fa-refresh"></i> Refresh
+    </button>
+  </div>
   <h1>Statistics</h1>
 </div>
 
@@ -7,11 +12,32 @@ This page is populated using the <a href="/api/doc#statistics">Statistics API</a
 
 <h2>Totals</h2>
 
-<dl>
-  <dt>Languages</dt>
-  <dd id="total-languages"></dd>
-  <dt>Samples</dt>
-  <dd id="total-samples"></dd>
-  <dt>Tokens</dt>
-  <dd id="total-tokens"></dd>
-</dl>
+<p class="lead">
+<span id="total-languages">0</span> languages,
+<span id="total-samples">0</span> samples, <span id="total-tokens">0</span>
+tokens.
+
+<div class="row">
+  <div class="col-md-6">
+    <h2>Languages</h2>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th><a id="sort-language" href="#">
+            Language<i class="fa fa-fw"></i>
+          </a></th>
+          <th><a id="sort-samples" href="#">
+            <i class="fa fa-fw"></i>Samples
+          </a></th>
+          <th><a id="sort-tokens" href="#">
+            <i class="fa fa-fw"></i>Tokens
+          </a></th>
+        </tr>
+      </thead>
+
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</div>

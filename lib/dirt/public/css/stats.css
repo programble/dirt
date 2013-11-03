@@ -1,0 +1,7 @@
+thead tr th:not(:first-child), tbody tr td:not(:first-child) {
+  text-align: right;
+}
+
+tbody tr {
+  cursor: pointer;
+}
