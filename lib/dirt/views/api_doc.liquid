@@ -188,7 +188,7 @@ Returns a hash of field names to integer totals. Returned fields are
 </h3>
 
 <p>
-List all known languages.
+Get sample and token totals for each language.
 
 <p>
 <pre>
@@ -196,39 +196,24 @@ List all known languages.
 </pre>
 
 <p>
-Returns an array of language name strings.
-
-<p>
-<pre>
-[
-    <span class="text-info">"Ruby"</span>,
-    <span class="text-info">"Clojure"</span>,
-    <span class="text-info">"JavaScript"</span>,
-    <span class="text-muted">...</span>
-]
-</pre>
-
-<h3 id="stats/samples">
-  <code>stats/samples</code>
-</h3>
-
-<p>
-Get the number of samples for each language.
-
-<p>
-<pre>
-<span class="text-danger">GET</span> <a href="/api/stats/samples">/api/stats/samples</a>
-</pre>
-
-<p>
-Returns a hash of language name strings to sample count integers.
+Returns a hash of language name strings to hashes containing the
+<code>samples</code> and <code>tokens</code> integer fields.
 
 <p>
 <pre>
 {
-    <span class="text-info">"Ruby"</span>: <span class="text-danger">750</span>,
-    <span class="text-info">"Clojure"</span>: <span class="text-danger">625</span>,
-    <span class="text-info">"JavaScript"</span>: <span class="text-danger">865</span>,
+    <span class="text-info">"Ruby"</span>: {
+        <span class="text-info">"samples"</span>: <span class="text-danger">750</span>,
+        <span class="text-info">"tokens"</span>: <span class="text-danger">1255</span>
+    },
+    <span class="text-info">"Clojure"</span>: {
+        <span class="text-info">"samples"</span>: <span class="text-danger">625</span>,
+        <span class="text-info">"tokens"</span>: <span class="text-danger">1375</span>
+    },
+    <span class="text-info">"JavaScript"</span>: {
+        <span class="text-info">"samples"</span>: <span class="text-danger">865</span>,
+        <span class="text-info">"tokens"</span>: <span class="text-danger">1005</span>
+    },
     <span class="text-muted">...</span>
 }
 </pre>
@@ -238,7 +223,7 @@ Returns a hash of language name strings to sample count integers.
 </h3>
 
 <p>
-Get the total number of tokens for each language.
+Get the tokens of a language.
 
 <p>
 <pre>
@@ -246,54 +231,22 @@ Get the total number of tokens for each language.
 </pre>
 
 <p>
-Returns a hash of language name strings to token count integers.
-
-<p>
-<pre>
-{
-    <span class="text-info">"Ruby"</span>: <span class="text-danger">1255</span>,
-    <span class="text-info">"Clojure"</span>: <span class="text-danger">1375</span>,
-    <span class="text-info">"JavaScript"</span>: <span class="text-danger">1005</span>,
-    <span class="text-muted">...</span>
-}
-</pre>
-
-<h3 id="stats/language">
-  <code>stats/language</code>
-</h3>
-
-<p>
-Get statistics about a language.
-
-<p>
-<pre>
-<span class="text-danger">GET</span> <a href="/api/stats/language">/api/stats/language</a>
-</pre>
-
-<p>
 <ul class="list-unstyled">
   <li><code>language</code>: the name of the language</li>
+  <li><code>limit</code>: the number of tokens per page (default: 20)</li>
+  <li><code>page</code>: the page number to return (default: 1)</li>
 </ul>
 
 <p>
-Returns a hash with the following fields:
-
-<ul class="list-unstyled">
-  <li><code>samples</code>: integer number of samples</li>
-  <li><code>tokens</code>: integer total number of tokens</li>
-  <li><code>top</code>: array of top 50 pairs of token strings and count integers</li>
-</ul>
+Returns an array of <code>limit</code> token string and integer count pairs,
+ordered from highest count to lowest.
 
 <p>
 <pre>
-{
-    <span class="text-info">"samples"</span>: <span class="text-danger">750</span>,
-    <span class="text-info">"tokens"</span>: <span class="text-danger">1255</span>,
-    <span class="text-info">"top"</span>: [
-        [ <span class="text-info">","</span>, <span class="text-danger">701056</span> ],
-        [ <span class="text-info">"["</span>, <span class="text-danger">274493</span> ],
-        [ <span class="text-info">"]"</span>, <span class="text-danger">274423</span> ],
-        <span class="text-muted">...</span>
-    ]
-}
+[
+    [ <span class="text-info">"."</span>, <span class="text-danger">88949</span> ],
+    [ <span class="text-info">":"</span>, <span class="text-danger">79322</span> ],
+    [ <span class="text-info">","</span>, <span class="text-danger">71001</span> ],
+    <span class="text-muted">...</span>
+]
 </pre>
