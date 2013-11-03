@@ -6,18 +6,18 @@ describe 'samples YAML file' do
   end
 
   it 'is alphabetized' do
-    @samples.keys.should == @samples.keys.sort
+    expect(@samples.keys).to eq(@samples.keys.sort)
   end
 
   it 'contains globs for each language' do
     @samples.each do |language, hash|
-      [String, Array].should include(hash['glob'].class)
+      expect([String, Array]).to include(hash['glob'].class)
     end
   end
 
   it 'contains git repositories for each language' do
     @samples.each do |language, hash|
-      hash['git'].should be_an(Array)
+      expect(hash['git']).to be_an(Array)
     end
   end
 end
