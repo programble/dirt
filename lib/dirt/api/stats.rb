@@ -22,32 +22,12 @@ module Dirt
       end
 
       get '/api/stats/languages' do
-        redis.hkeys('samples').to_json
-      end
-
-      get '/api/stats/samples' do
         redis.hgetall('samples').map do |language, samples|
-          {language => samples.to_i}
+          {language => {
+            samples: samples.to_i,
+            tokens: redis.get("tokens:#{language}:total").to_i
+          }}
         end.reduce(&:merge).to_json
-      end
-
-      get '/api/stats/tokens' do
-        redis.hkeys('samples').map do |language|
-          {language => redis.get("tokens:#{language}:total").to_i}
-        end.reduce(&:merge).to_json
-      end
-
-      get '/api/stats/language' do
-        language = params[:language]
-        halt 404, 'Unknown language' unless redis.exists("tokens:#{language}")
-        {
-          samples: redis.hget('samples', language).to_i,
-          tokens: redis.get("tokens:#{language}:total").to_i,
-          top: redis.zrevrange("tokens:#{language}",
-                               0, 49, with_scores: true).map do |token, score|
-            [token, score.to_i]
-          end
-        }.to_json
       end
     end
   end
