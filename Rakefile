@@ -74,8 +74,10 @@ samples.each do |language, struct|
   multitask 'samples/all' => [lang_path]
 end
 
+desc 'Train classifier with all samples'
 task :samples => ['samples/all']
 
+desc 'Remove samples'
 task :clean do |t|
   rm_rf 'samples'
 end
