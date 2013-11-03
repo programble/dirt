@@ -6,70 +6,86 @@ describe Dirt::Tokenizer do
   end
 
   def tokenize(s)
-    described_class.new(s).tokenize
+    @tokens = described_class.new(s).tokenize
   end
 
   it 'scans shebangs' do
-    scan_shebang('#!/bin/bash').should == '#!bash'
-    scan_shebang('#!/usr/bin/ruby').should == '#!ruby'
-    scan_shebang('#!/usr/bin/env ruby').should == '#!ruby'
-    scan_shebang('#!/usr/bin/python3').should == '#!python'
-    scan_shebang('#!/usr/bin/env python3').should == '#!python'
+    expect(scan_shebang('#!/bin/bash')).to eq('#!bash')
+    expect(scan_shebang('#!/usr/bin/ruby')).to eq('#!ruby')
+    expect(scan_shebang('#!/usr/bin/env ruby')).to eq('#!ruby')
+    expect(scan_shebang('#!/usr/bin/python3')).to eq('#!python')
+    expect(scan_shebang('#!/usr/bin/env python3')).to eq('#!python')
   end
 
   it 'tokenizes shebangs' do
-    tokenize('#!/usr/bin/env ruby').should == ['#!ruby']
+    tokenize('#!/usr/bin/env ruby')
+    expect(@tokens).to eq(['#!ruby'])
   end
 
   it 'skips whitespace' do
-    tokenize(" \t\n ").should == []
+    tokenize(" \t\n ")
+    expect(@tokens).to be_empty
   end
 
   it 'skips line comments' do
     %w[# // ;; --].each do |c|
-      tokenize("#{c} foo").should == []
-      tokenize("foo #{c} bar").should == ['foo']
-      tokenize("#{c} foo\nbar").should == ['bar']
-      tokenize("foo #{c} bar\nbaz").should == ['foo', 'baz']
+      tokenize("#{c} foo")
+      expect(@tokens).to be_empty
+
+      tokenize("foo #{c} bar")
+      expect(@tokens).to eq(['foo'])
+
+      tokenize("#{c} foo\nbar")
+      expect(@tokens).to eq(['bar'])
+
+      tokenize("foo #{c} bar\nbaz")
+      expect(@tokens).to eq(%w[foo baz])
     end
   end
 
   it 'skips block comments' do
     {'/*' => '*/', '<!--' => '-->', '{-' => '-}', '(*' => '*)',
      '"""' => '"""'}.each do |o, c|
-      tokenize("#{o} foo\nbar #{c}").should == []
-      tokenize("#{o} foo #{c} bar #{o} baz #{c}").should == ['bar']
+      tokenize("#{o} foo\nbar #{c}")
+      expect(@tokens).to be_empty
+
+      tokenize("#{o} foo #{c} bar #{o} baz #{c}")
+      expect(@tokens).to eq(['bar'])
     end
   end
 
   it 'skips strings' do
-    tokenize(%q['' a "" b 'foo' c "bar" d '\'' e "\"" f]).should == 'abcdef'.chars.to_a
+    tokenize(%q['' a "" b 'foo' c "bar" d '\'' e "\"" f])
+    expect(@tokens).to eq('abcdef'.chars.to_a)
   end
 
   it 'skips numbers' do
-    tokenize('0xFF a 1 b 1.0 c 1. d').should == 'abcd'.chars.to_a
+    tokenize('0xFF a 1 b 1.0 c 1. d')
+    expect(@tokens).to eq('abcd'.chars.to_a)
   end
 
   it 'tokenizes regular tokens' do
-    tokenize('foo bar baz').should == %w[foo bar baz]
-    tokenize("foo! foo? foo' foo=").should == %w[foo! foo? foo' foo=]
-    tokenize('@foo $foo').should == %w[@foo $foo]
+    str = "foo bar baz foo! foo? foo' foo= @foo $foo foo-bar"
+    tokenize(str)
+    expect(@tokens).to eq(str.split)
   end
 
   it 'tokenizes SGML tags' do
-    tokenize('<span>foo</span>').should == %w[<span> foo </span>]
+    tokenize('<span>foo</span>')
+    expect(@tokens).to eq(%w[<span> foo </span>])
+
+    tokenize('<span class="foo">bar</span>')
+    expect(@tokens).to eq(%w[<span class= > bar </span>])
   end
 
   it 'tokenizes punctuation' do
-    tokenize(',.:;{}()[]').should == %w", . : ; { } ( ) [ ]"
+    tokenize(',.:;{}()[]')
+    expect(@tokens).to eq(%w", . : ; { } ( ) [ ]")
   end
 
   it 'tokenizes operators' do
-    tokenize('= == != =/=').should == %w[= == != =/=]
-    tokenize('++ 0-- += -= *= /= %= =/=').should == %w[++ -- += -= *= /= %= =/=]
-    tokenize('> < >= <=').should == %w[> < >= <=]
-    tokenize('+ - * / %').should == %w[+ - * / %]
-    tokenize('>> << ^ & |').should == %w[>> << ^ & |]
-    tokenize('! && ||').should == %w[! && ||]
+    str = '= == != /= ++ += -= *= %= > < >= <= + - * / % >> << ^ & | ! && || --'
+    tokenize(str)
+    expect(@tokens).to eq(str.split)
   end
 end
