@@ -7,46 +7,50 @@ describe Dirt::Classifier do
     @classifier = described_class.new(@redis)
   end
 
-  it 'trains' do
-    @classifier.train!('A', %w[foo bar baz])
-    @classifier.train!('A', %w[foo foo baz])
-    @classifier.train!('B', %w[bar bar baz])
-
-    @redis.get('samples:total').to_i.should == 3
-    @redis.hget('samples', 'A').to_i.should == 2
-    @redis.hget('samples', 'B').to_i.should == 1
-    @redis.get('tokens:total').to_i.should == 9
-    @redis.get('tokens:A:total').to_i.should == 6
-    @redis.get('tokens:B:total').to_i.should == 3
-    @redis.zscore('tokens:A', 'foo').to_i.should == 3
-    @redis.zscore('tokens:A', 'bar').to_i.should == 1
-    @redis.zscore('tokens:A', 'baz').to_i.should == 2
-    @redis.zscore('tokens:B', 'bar').to_i.should == 2
-    @redis.zscore('tokens:B', 'baz').to_i.should == 1
+  def classify(*args)
+    @scores = @classifier.classify(*args)
   end
 
-  it 'classifies' do
-    @classifier.train!('A', %w[foo bar baz])
-    @classifier.train!('A', %w[foo foo baz])
-    @classifier.train!('B', %w[bar bar baz])
+  context do
+    before do
+      @classifier.train!('A', %w[foo bar baz])
+      @classifier.train!('A', %w[foo foo baz])
+      @classifier.train!('B', %w[bar bar baz])
+    end
 
-    scores = @classifier.classify(%w[bar baz])
-    scores['B'].should be > scores['A']
-    scores = @classifier.classify(%w[foo baz])
-    scores['A'].should be > scores['B']
-    scores = @classifier.classify(%w[quux])
-    scores['A'].should be > scores['B']
+    it 'trains' do
+      expect(@redis.get('samples:total').to_i).to eq(3)
+      expect(@redis.hget('samples', 'A').to_i).to eq(2)
+      expect(@redis.hget('samples', 'B').to_i).to eq(1)
+      expect(@redis.get('tokens:total').to_i).to eq(9)
+      expect(@redis.get('tokens:A:total').to_i).to eq(6)
+      expect(@redis.get('tokens:B:total').to_i).to eq(3)
+      expect(@redis.zscore('tokens:A', 'foo').to_i).to eq(3)
+      expect(@redis.zscore('tokens:A', 'bar').to_i).to eq(1)
+      expect(@redis.zscore('tokens:A', 'baz').to_i).to eq(2)
+      expect(@redis.zscore('tokens:B', 'bar').to_i).to eq(2)
+      expect(@redis.zscore('tokens:B', 'baz').to_i).to eq(1)
+    end
+
+    it 'classifies' do
+      classify(%w[bar baz])
+      expect(@scores['B']).to be > @scores['A']
+
+      classify(%w[foo baz])
+      expect(@scores['A']).to be > @scores['B']
+
+      classify(%w[quux])
+      expect(@scores['A']).to be > @scores['B']
+    end
+
+    it 'classifies against specific languages' do
+      classify(%w[foo bar baz], ['A', 'C'])
+      expect(@scores.keys).to eq(['A', 'C'])
+    end
   end
 
-  it 'classifies only against specific languages' do
-    @classifier.train!('A', %w[foo bar baz])
-    @classifier.train!('B', %w[foo bar baz])
-    @classifier.train!('C', %w[foo bar baz])
-
-    @classifier.classify(%w[foo bar baz], ['A', 'C']).keys.should == ['A', 'C']
-  end
-
-  it 'classifies with no tokens' do
-    @classifier.classify([]).should == {}
+  it 'classifies with no data' do
+    classify([])
+    expect(@scores).to be_empty
   end
 end
