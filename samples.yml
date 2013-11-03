@@ -1,37 +1,13 @@
-PHP:
-  glob: '*.php'
+Ada:
+  glob: '*.ada'
   git:
-    - https://github.com/facebook/phabricator
-    - https://github.com/facebook/libphutil
-    - https://github.com/laravel/laravel
-    - https://github.com/zendframework/zf2
+    - https://github.com/Lucretia/tamp
+    - https://github.com/AdaDoom3/AdaDoom3
 
-Haskell:
-  glob: '*.hs'
+Agda:
+  glob: '*.agda'
   git:
-    - https://github.com/ghc/ghc
-    - https://github.com/faylang/fay
-    - https://github.com/yesodweb/yesod
-    - https://github.com/jaspervdj/hakyll
-
-Perl:
-  glob: '*.pl'
-  git:
-    - https://github.com/Perl/perl5
-    - https://github.com/munin-monitoring/munin
-
-Ruby:
-  glob: ['*.rb', 'Gemfile', 'Rakefile', '*.gemspec']
-  git:
-    - https://github.com/diaspora/diaspora
-    - https://github.com/rails/rails
-
-Python:
-  glob: '*.py'
-  git:
-    - https://github.com/django/django
-    - https://github.com/ansible/ansible
-    - https://github.com/getsentry/sentry
+    - https://github.com/UlfNorell/agda
 
 C:
   glob: ['*.c', '*.h']
@@ -39,6 +15,12 @@ C:
     - https://github.com/python/cpython
     - https://github.com/git/git
     - https://github.com/ruby/ruby
+
+'C#':
+  glob: '*.cs'
+  git:
+    - https://github.com/opserver/Opserver
+    - https://github.com/ServiceStack/ServiceStack
 
 C++:
   glob: ['*.cpp', '*.cc', '*.cxx', '*.c++', '*.h', '*.hh', '*.hpp', '*.hxx', '*.h++']
@@ -50,19 +32,96 @@ C++:
     - https://github.com/facebook/hhvm
     - https://github.com/mongodb/mongo
 
-Shell:
-  glob: '*.sh'
+CSS:
+  glob: '*.css'
   git:
-    - https://github.com/git/git
-    - https://github.com/robbyrussell/oh-my-zsh
-    - https://github.com/progrium/dokku
-    - https://github.com/nvie/gitflow
+    - https://github.com/twbs/bootstrap
+    - https://github.com/HubSpot/offline
+    - https://github.com/FortAwesome/Font-Awesome
+
+Clojure:
+  glob: '*.clj'
+  git:
+    - https://github.com/Raynes/tryclojure
+    - https://github.com/Raynes/fs.git
+    - https://github.com/technomancy/leiningen
+    - https://github.com/weavejester/compojure
+    - https://github.com/clojure/clojurescript
 
 CoffeeScript:
   glob: '*.coffee'
   git:
     - https://github.com/harvesthq/chosen
     - https://github.com/jashkenas/coffee-script
+
+Coq:
+  glob: '*.v'
+  git:
+    - https://github.com/HoTT/HoTT
+    - https://github.com/sfja/sfja
+    - https://github.com/c-corn/corn
+
+D:
+  glob: '*.d'
+  git:
+    - https://github.com/rejectedsoftware/vibe.d
+    - https://github.com/D-Programming-Language/phobos
+    - https://github.com/D-Programming-Language/druntime
+
+Elixir:
+  glob: ['*.exs', '*.ex']
+  git:
+    - https://github.com/elixir-lang/elixir
+    - https://github.com/0xAX/weber
+
+Erlang:
+  glob: '*.erl'
+  git:
+    - https://github.com/erlang/otp
+
+Go:
+  glob: '*.go'
+  git:
+    - https://github.com/limetext/lime
+    - https://github.com/hashicorp/serf
+    - https://github.com/coreos/etcd
+
+HTML:
+  glob: '*.html'
+  git:
+    - https://github.com/twbs/bootstrap
+    - https://github.com/FortAwesome/Font-Awesome
+
+Haskell:
+  glob: '*.hs'
+  git:
+    - https://github.com/ghc/ghc
+    - https://github.com/faylang/fay
+    - https://github.com/yesodweb/yesod
+    - https://github.com/jaspervdj/hakyll
+    - https://github.com/faylang/fay
+
+Idris:
+  glob: '*.idr'
+  git:
+    - https://github.com/idris-lang/Idris-dev/
+    - https://github.com/idris-hackers/IdrisWeb
+
+Io:
+  glob: '*.io'
+  git:
+    - https://github.com/cdcarter/backpacking
+    - https://github.com/josip/eerie
+    - https://github.com/fredreichbier/iorm
+    - https://github.com/defunkt/ike
+    - https://github.com/stevedekorte/io
+
+Java:
+  glob: '*.java'
+  git:
+    - https://github.com/functionaljava/functionaljava
+    - https://github.com/spring-projects/spring-framework
+    - https://github.com/wildfly/wildfly
 
 JavaScript:
   glob: '*.js'
@@ -72,12 +131,48 @@ JavaScript:
     - https://github.com/facebook/react
     - https://github.com/jquery/jquery
 
-CSS:
-  glob: '*.css'
+PHP:
+  glob: '*.php'
   git:
-    - https://github.com/twbs/bootstrap
-    - https://github.com/HubSpot/offline
-    - https://github.com/FortAwesome/Font-Awesome
+    - https://github.com/facebook/phabricator
+    - https://github.com/facebook/libphutil
+    - https://github.com/laravel/laravel
+    - https://github.com/zendframework/zf2
+
+Perl:
+  glob: '*.pl'
+  git:
+    - https://github.com/Perl/perl5
+    - https://github.com/munin-monitoring/munin
+    - https://github.com/sitaramc/gitolite
+
+Python:
+  glob: '*.py'
+  git:
+    - https://github.com/django/django
+    - https://github.com/ansible/ansible
+    - https://github.com/getsentry/sentry
+
+R:
+  glob: '*.r'
+  git:
+    - https://github.com/yihui/knitr.git
+
+Racket:
+  glob: '*.rkt'
+  git:
+    - https://github.com/plt/racket.git
+
+Ruby:
+  glob: ['*.rb', 'Gemfile', 'Rakefile', '*.gemspec']
+  git:
+    - https://github.com/diaspora/diaspora
+    - https://github.com/rails/rails
+
+Rust:
+  glob: '*.rs'
+  git:
+    - https://github.com/mozilla/rust
 
 Scala:
   glob: '*.scala'
@@ -87,101 +182,27 @@ Scala:
     - https://github.com/scalaz/scalaz
     - https://github.com/spray/spray
 
-Java:
-  glob: '*.java'
+Scheme:
+  glob: '*.scm'
   git:
-    - https://github.com/functionaljava/functionaljava
-    - https://github.com/spring-projects/spring-framework
-    - https://github.com/wildfly/wildfly
+    - https://github.com/marcomaggi/vicare
+    - https://github.com/eholk/harlan
+    - https://github.com/pkrumins/the-little-schemer
 
-Clojure:
-  glob: '*.clj'
+Shell:
+  glob: '*.sh'
   git:
-    - https://github.com/Raynes/tryclojure
-    - https://github.com/Raynes/fs.git
-
-Idris:
-  glob: '*.idr'
-  git:
-    - https://github.com/idris-lang/Idris-dev/
-    - https://github.com/idris-hackers/IdrisWeb
-
-Agda:
-  glob: '*.agda'
-  git:
-    - https://github.com/UlfNorell/agda
-
-Coq:
-  glob: '*.v'
-  git:
-    - https://github.com/HoTT/HoTT
-    - https://github.com/sfja/sfja
-
-Ada:
-  glob: '*.ada'
-  git:
-    - https://github.com/Lucretia/tamp
-    - https://github.com/AdaDoom3/AdaDoom3
-
-'C#':
-  glob: '*.cs'
-  git:
-    - https://github.com/opserver/Opserver
-    - https://github.com/ServiceStack/ServiceStack
-
-D:
-  glob: '*.d'
-  git:
-    - https://github.com/rejectedsoftware/vibe.d
-    - https://github.com/D-Programming-Language/phobos
-
-Erlang:
-  glob: '*.erl'
-  git:
-    - https://github.com/erlang/otp
-
-Elixir:
-  glob: ['*.exs', '*.ex']
-  git:
-    - https://github.com/elixir-lang/elixir
-
-Go:
-  glob: '*.go'
-  git:
-    - https://github.com/limetext/lime
-    - https://github.com/hashicorp/serf
-
-Io:
-  glob: '*.io'
-  git:
-    - https://github.com/cdcarter/backpacking
-    - https://github.com/josip/eerie
-    - https://github.com/fredreichbier/iorm
+    - https://github.com/git/git
+    - https://github.com/robbyrussell/oh-my-zsh
+    - https://github.com/progrium/dokku
+    - https://github.com/nvie/gitflow
 
 'Standard ML':
   glob: ['*.sml', '*.sig', '*.fun']
   git:
     - https://github.com/MLton/mlton
-
-Racket:
-  glob: '*.rkt'
-  git:
-    - https://github.com/plt/racket.git
-
-R:
-  glob: '*.r'
-  git:
-    - https://github.com/yihui/knitr.git
-
-Rust:
-  glob: '*.rs'
-  git:
-    - https://github.com/mozilla/rust
-
-Scheme:
-  glob: '*.scm'
-  git:
-    - https://github.com/marcomaggi/vicare
+    - https://github.com/Ravenbrook/mlworks
+    - https://github.com/gamelinux/prads
 
 Tcl:
   glob: '*.tcl'
@@ -194,3 +215,5 @@ Tcl:
   git:
     - https://github.com/jjmartres/Zabbix
     - https://github.com/rmcardle/mRemoteNG
+    - https://github.com/bodrick/Ember-MM
+    - https://github.com/despo/gorillas
