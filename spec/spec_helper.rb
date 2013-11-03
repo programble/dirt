@@ -22,7 +22,8 @@ module Rack::Test::Methods
   end
 
   def json_body
-    @json_body ||= JSON.parse(last_response.body)
+    @json_body ||= Hash.new
+    @json_body[last_response] ||= JSON.parse(last_response.body)
   end
 end
 
