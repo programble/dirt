@@ -29,6 +29,31 @@ module Dirt
           }}
         end.reduce(&:merge).to_json
       end
+
+      get '/api/stats/tokens' do
+        language = params[:language]
+        halt 404, 'Unknown language' unless redis.exists("tokens:#{language}")
+
+        begin
+          limit = Integer(params[:limit] || 20)
+          page = Integer(params[:page] || 1)
+        rescue ArgumentError
+          halt 400, 'Invalid limit or page'
+        end
+
+        halt 400, 'Invalid limit' if limit < 1
+        halt 400, 'Invalid page' if page < 1
+
+        halt 403, 'Limit over maximum' if limit > 1000
+
+        lower = (page - 1) * limit
+        upper = lower + limit - 1
+
+        tokens = redis.zrevrange("tokens:#{language}", lower, upper, with_scores: true)
+        halt 404, 'No more tokens' if tokens.empty?
+
+        tokens.map {|l, t| [l, t.to_i] }.to_json
+      end
     end
   end
 end
