@@ -18,26 +18,57 @@ This page is populated using the <a href="/api/doc#statistics">Statistics API</a
 tokens.
 
 <div class="row">
-  <div class="col-md-6">
+  <div id="languages" class="col-md-6">
     <h2>Languages</h2>
 
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th><a id="sort-language" href="#">
-            Language<i class="fa fa-fw"></i>
-          </a></th>
-          <th><a id="sort-samples" href="#">
-            <i class="fa fa-fw"></i>Samples
-          </a></th>
-          <th><a id="sort-tokens" href="#">
-            <i class="fa fa-fw"></i>Tokens
-          </a></th>
-        </tr>
-      </thead>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th><a id="sort-language" href="#">
+              Language<i class="fa fa-fw"></i>
+            </a></th>
+            <th><a id="sort-samples" href="#">
+              <i class="fa fa-fw"></i>Samples
+            </a></th>
+            <th><a id="sort-tokens" href="#">
+              <i class="fa fa-fw"></i>Tokens
+            </a></th>
+          </tr>
+        </thead>
 
-      <tbody>
-      </tbody>
-    </table>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tokens" class="col-md-6 fade">
+    <h2><span id="tokens-language"></span> Tokens</h2>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Token</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="pager">
+      <li class="previous">
+        <a href="#"><i class="fa fa-chevron-left"></i></a>
+      </li>
+      <li class="next">
+        <a href="#"><i class="fa fa-chevron-right"></i></a>
+      </li>
+    </ul>
   </div>
 </div>

@@ -1,7 +1,14 @@
-thead tr th:not(:first-child), tbody tr td:not(:first-child) {
+#languages tr th:nth-child(3),
+#languages tr th:nth-child(4),
+#languages tr td:nth-child(3),
+#languages tr td:nth-child(4) {
   text-align: right;
 }
 
-tbody tr {
+#languages tbody tr {
   cursor: pointer;
+}
+
+#tokens tr th:nth-child(3), #tokens tr td:nth-child(3) {
+  text-align: right;
 }
