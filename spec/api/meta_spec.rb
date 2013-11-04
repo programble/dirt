@@ -3,7 +3,7 @@ require 'dirt/api/meta'
 describe Dirt::API::Meta do
   include Rack::Test::Methods
 
-  context '/version' do
+  context 'meta/version' do
     it 'returns a JSON hash' do
       get('/api/meta/version')
 

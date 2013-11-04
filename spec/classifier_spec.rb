@@ -11,7 +11,7 @@ describe Dirt::Classifier do
     @scores = @classifier.classify(*args)
   end
 
-  context do
+  context 'with training' do
     before do
       @classifier.train!('A', %w[foo bar baz])
       @classifier.train!('A', %w[foo foo baz])
@@ -49,7 +49,7 @@ describe Dirt::Classifier do
     end
   end
 
-  it 'classifies with no data' do
+  it 'classifies nothing' do
     classify([])
     expect(@scores).to be_empty
   end
