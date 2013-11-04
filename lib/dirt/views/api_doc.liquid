@@ -13,8 +13,10 @@
 Method paths begin with <code>/api</code>.
 
 <p>
-All methods return JSON object bodies with the
-<code>Content-Type: application/json</code> header.
+All methods return JSON bodies with the
+<code>Content-Type: application/json</code> header. In the event of an error,
+a JSON object containing an <code>error</code> key with the error message will
+be returned.
 
 <p>
 For <code>POST</code> methods, parameters must be form-encoded, i.e. sent with
