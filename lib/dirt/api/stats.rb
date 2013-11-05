@@ -9,6 +9,10 @@ module Dirt
         @redis ||= Redis.new
       end
 
+      def error(status, message)
+        halt status, {error: message}.to_json
+      end
+
       before do
         content_type :json
       end
@@ -32,25 +36,25 @@ module Dirt
 
       get '/api/stats/tokens' do
         language = params[:language]
-        halt 404, 'Unknown language' unless redis.exists("tokens:#{language}")
+        error 404, 'Unknown language' unless redis.exists("tokens:#{language}")
 
         begin
           limit = Integer(params[:limit] || 20)
           page = Integer(params[:page] || 1)
         rescue ArgumentError
-          halt 400, 'Invalid limit or page'
+          error 400, 'Invalid limit or page'
         end
 
-        halt 400, 'Invalid limit' if limit < 1
-        halt 400, 'Invalid page' if page < 1
+        error 400, 'Invalid limit' if limit < 1
+        error 400, 'Invalid page' if page < 1
 
-        halt 403, 'Limit over maximum' if limit > 1000
+        error 403, 'Limit over maximum' if limit > 1000
 
         lower = (page - 1) * limit
         upper = lower + limit - 1
 
         tokens = redis.zrevrange("tokens:#{language}", lower, upper, with_scores: true)
-        halt 404, 'No more tokens' if tokens.empty?
+        error 404, 'No more tokens' if tokens.empty?
 
         tokens.map {|l, t| [l, t.to_i] }.to_json
       end

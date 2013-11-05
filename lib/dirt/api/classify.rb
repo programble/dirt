@@ -8,7 +8,7 @@ module Dirt
   module API
     class Classify < Sinatra::Base
       def classify(params)
-        halt 400, 'No sample' unless params[:sample]
+        halt 400, {error: 'No sample'}.to_json unless params[:sample]
 
         tokenizer = Tokenizer.new(params[:sample])
         classifier = Classifier.new
