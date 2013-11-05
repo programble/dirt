@@ -190,7 +190,7 @@ Returns a hash of field names to integer totals. Returned fields are
 </h3>
 
 <p>
-Get sample and token totals for each language.
+Get number of samples, total tokens and unique token count for each language.
 
 <p>
 <pre>
@@ -199,22 +199,26 @@ Get sample and token totals for each language.
 
 <p>
 Returns a hash of language name strings to hashes containing the
-<code>samples</code> and <code>tokens</code> integer fields.
+<code>samples</code>, <code>tokens</code> and <code>uniqueTokens</code> integer
+fields.
 
 <p>
 <pre>
 {
     <span class="text-info">"Ruby"</span>: {
-        <span class="text-info">"samples"</span>: <span class="text-danger">750</span>,
-        <span class="text-info">"tokens"</span>: <span class="text-danger">1255</span>
+        <span class="text-info">"samples"</span>: <span class="text-danger">2330</span>,
+        <span class="text-info">"tokens"</span>: <span class="text-danger">1052089</span>,
+        <span class="text-info">"uniqueTokens"</span>: <span class="text-danger">31387</span>
     },
     <span class="text-info">"Clojure"</span>: {
-        <span class="text-info">"samples"</span>: <span class="text-danger">625</span>,
-        <span class="text-info">"tokens"</span>: <span class="text-danger">1375</span>
+        <span class="text-info">"samples"</span>: <span class="text-danger">157</span>,
+        <span class="text-info">"tokens"</span>: <span class="text-danger">69706</span>,
+        <span class="text-info">"uniqueTokens"</span>: <span class="text-danger">3522</span>
     },
     <span class="text-info">"JavaScript"</span>: {
-        <span class="text-info">"samples"</span>: <span class="text-danger">865</span>,
-        <span class="text-info">"tokens"</span>: <span class="text-danger">1005</span>
+        <span class="text-info">"samples"</span>: <span class="text-danger">1582</span>,
+        <span class="text-info">"tokens"</span>: <span class="text-danger">2575362</span>,
+        <span class="text-info">"uniqueTokens"</span>: <span class="text-danger">24784</span>
     },
     <span class="text-muted">...</span>
 }
