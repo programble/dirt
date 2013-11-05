@@ -29,7 +29,8 @@ module Dirt
         redis.hgetall('samples').map do |language, samples|
           {language => {
             samples: samples.to_i,
-            tokens: redis.get("tokens:#{language}:total").to_i
+            tokens: redis.get("tokens:#{language}:total").to_i,
+            uniqueTokens: redis.zcard("tokens:#{language}")
           }}
         end.reduce(&:merge).to_json
       end
