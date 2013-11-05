@@ -1,14 +1,15 @@
-#languages tr th:nth-child(3),
-#languages tr th:nth-child(4),
-#languages tr td:nth-child(3),
-#languages tr td:nth-child(4) {
+#languages th, #languages td {
   text-align: right;
+}
+
+#languages tr>*:nth-child(1), #languages tr>*:nth-child(2) {
+  text-align: left;
 }
 
 #languages tbody tr {
   cursor: pointer;
 }
 
-#tokens tr th:nth-child(3), #tokens tr td:nth-child(3) {
+#tokens tr>*:nth-child(3) {
   text-align: right;
 }
