@@ -42,6 +42,7 @@ describe Dirt::API::Stats do
         expect(stats).to be_a(Hash)
         expect(stats['samples']).to be_an(Integer)
         expect(stats['tokens']).to be_an(Integer)
+        expect(stats['uniqueTokens']).to be_an(Integer)
       end
     end
   end
