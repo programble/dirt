@@ -53,7 +53,7 @@ describe Dirt::API::Stats do
 
     it 'returns 404 for unknown language' do
       tokens
-      expect(last_response.status).to eq(404)
+      expect_json_error(404)
     end
 
     it 'returns a JSON array of pairs' do
@@ -82,7 +82,7 @@ describe Dirt::API::Stats do
 
     it 'returns 403 for limit over maximum' do
       tokens(language: 'A', limit: 1001)
-      expect(last_response.status).to eq(403)
+      expect_json_error(403)
     end
 
     it 'paginates' do
@@ -94,29 +94,29 @@ describe Dirt::API::Stats do
 
     it 'returns 404 for out of bounds page' do
       tokens(language: 'A', page: 10000)
-      expect(last_response.status).to eq(404)
+      expect_json_error(404)
     end
 
     it 'returns 400 for invalid limit' do
       tokens(language: 'A', limit: 0)
-      expect(last_response.status).to eq(400)
+      expect_json_error(400)
 
       tokens(language: 'A', limit: -1)
-      expect(last_response.status).to eq(400)
+      expect_json_error(400)
 
       tokens(language: 'A', limit: 'a')
-      expect(last_response.status).to eq(400)
+      expect_json_error(400)
     end
 
     it 'returns 400 for invalid page' do
       tokens(language: 'A', page: 0)
-      expect(last_response.status).to eq(400)
+      expect_json_error(400)
 
       tokens(language: 'A', page: -1)
-      expect(last_response.status).to eq(400)
+      expect_json_error(400)
 
       tokens(language: 'A', page: 'a')
-      expect(last_response.status).to eq(400)
+      expect_json_error(400)
     end
   end
 end

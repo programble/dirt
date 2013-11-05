@@ -29,7 +29,7 @@ describe Dirt::API::Classify do
   context 'classify' do
     it 'returns 400 for bad request' do
       classify
-      expect(last_response.status).to eq(400)
+      expect_json_error(400)
     end
 
     it 'returns a JSON array of strings' do
@@ -47,7 +47,7 @@ describe Dirt::API::Classify do
   context 'classify/scores' do
     it 'returns 400 for bad request' do
       scores
-      expect(last_response.status).to eq(400)
+      expect_json_error(400)
     end
 
     it 'returns a JSON array of string-float pairs' do
@@ -77,7 +77,7 @@ describe Dirt::API::Classify do
   context 'classify/raw' do
     it 'returns 400 for bad request' do
       raw
-      expect(last_response.status).to eq(400)
+      expect_json_error(400)
     end
 
     it 'returns a JSON hash of string to float' do
