@@ -221,6 +221,13 @@ Tcl:
     - https://github.com/zdia/gorilla
     - https://github.com/horgh/twitter-tcl
 
+Vala:
+  glob: '*.vala'
+  git:
+    - https://github.com/GNOME/vala
+    - https://github.com/antono/valum
+    - https://github.com/Valama/valama
+
 'Visual Basic':
   glob: '*.vb'
   git:
