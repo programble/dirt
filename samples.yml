@@ -136,6 +136,12 @@ JavaScript:
     - https://github.com/facebook/react
     - https://github.com/jquery/jquery
 
+Lua:
+  glob: '*.lua'
+  git:
+    - https://github.com/kernelsauce/turbo
+    - https://github.com/pkulchenko/ZeroBraneStudio
+
 PHP:
   glob: '*.php'
   git:
