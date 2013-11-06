@@ -30,7 +30,9 @@ end
 desc 'Tokenize a file or standard input'
 task :tokenize, [:file] do |t, args|
   f = args.file ? File.open(args.file) : $stdin
-  puts Dirt::Tokenizer.new(f.read).tokenize.join(' ')
+  Dirt::Tokenizer.new(f.read).tokenize.sort_by {|_, c| -c }.each do |token, count|
+    puts "#{count} #{token}"
+  end
 end
 
 desc 'Train classifier with files'

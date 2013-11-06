@@ -32,10 +32,10 @@ module Dirt
     end
 
     def tokenize
-      tokens = Array.new
+      tokens = Hash.new(0)
       until eos?
         if token = scan_token
-          tokens << token
+          tokens[token] += 1
         else
           getch
         end

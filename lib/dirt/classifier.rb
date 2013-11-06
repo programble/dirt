@@ -40,10 +40,10 @@ module Dirt
       @redis.incr('samples:total')
 
       @redis.pipelined do
-        tokens.group_by {|x| x }.each do |token, group|
-          @redis.zincrby("tokens:#{language}", group.length, token)
-          @redis.incrby("tokens:#{language}:total", group.length)
-          @redis.incrby('tokens:total', group.length)
+        tokens.each do |token, count|
+          @redis.zincrby("tokens:#{language}", count, token)
+          @redis.incrby("tokens:#{language}:total", count)
+          @redis.incrby('tokens:total', count)
         end
       end
     end
@@ -75,10 +75,9 @@ module Dirt
       language_total = @redis.get("tokens:#{language}:total").to_f
       total = @redis.get('tokens:total').to_f
 
-      @redis.pipelined do
-        tokens.each {|t| @redis.zscore("tokens:#{language}", t) }
-      end.map do |n|
-        Math.log(n ? n.to_f / language_total : 1.0 / total)
+      tokens.map do |token, count|
+        score = @redis.zscore("tokens:#{language}", token)
+        Math.log(score ? score.to_f / language_total : 1 / total) * count
       end.reduce(0.0, :+)
     end
 
