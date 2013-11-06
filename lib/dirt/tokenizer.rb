@@ -27,6 +27,10 @@ require 'strscan'
 
 module Dirt
   class Tokenizer < StringScanner
+    def initialize(string)
+      super("\n" + string) # HACK: So that line comments on first line match
+    end
+
     def tokenize
       tokens = Array.new
       until eos?
@@ -45,7 +49,7 @@ module Dirt
       end
 
       # Skip comments
-      scan(%r"(^|\s+)(//|#|;;|--) .*") # Java/C, Ruby/Shell, Lisp, Haskell
+      scan(%r"(\s+(/{2,}|#+|;+|-{2,}) [^\n]*)+"m) # Java/C, Ruby/Shell, Lisp, Haskell
 
       scan_block_comment(%r"/\*", %r"\*/") # Java/C
       scan_block_comment(/<!--/, /-->/)    # XML/HTML
@@ -70,7 +74,7 @@ module Dirt
 
     # Removes /usr/bin/env and trailing number (e.g. python3 -> python)
     def scan_shebang
-      if shebang = scan(/^#!.+$/)
+      if shebang = scan(/\n#!.+$/)
         parts = shebang.split(' ')
         script = parts.first.split('/').last
         script = parts[1] if script == 'env' && parts[1]
