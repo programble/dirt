@@ -51,13 +51,13 @@ module Dirt
       # Skip comments
       skip(%r$(\s+(/{2,}|#+|;+|-{2,}|!+|") [^\n]*)+$m)
 
-      skip_block_comment(%r"/\*", %r"\*/") # Java/C
-      skip_block_comment(/<!--/, /-->/)    # XML/HTML
-      skip_block_comment(/{-/, /-}/)       # Haskell
-      skip_block_comment(/\(\*/, /\*\)/)   # Coq/SML
-      skip_block_comment(/"""/, /"""/)     # Python
-      skip_block_comment(/--\[\[/, /\]\]/) # Lua
-      skip_block_comment(/#\|/, /\|#/)     # Common Lisp
+      skip_block_comment(%r"/\*",  %r"\*/") # Java/C
+      skip_block_comment(/<!--/,   /-->/)   # XML/HTML
+      skip_block_comment(/{-/,     /-}/)    # Haskell
+      skip_block_comment(/\(\*/,   /\*\)/)  # Coq/SML
+      skip_block_comment(/"""/,    /"""/)   # Python
+      skip_block_comment(/--\[\[/, /\]\]/)  # Lua
+      skip_block_comment(/#\|/,    /\|#/)   # Common Lisp
 
       # Skip strings
       skip(/''|""/) # Empty strings
