@@ -54,6 +54,13 @@ CoffeeScript:
     - https://github.com/harvesthq/chosen
     - https://github.com/jashkenas/coffee-script
 
+'Common Lisp':
+  glob: ['*.lisp', '*.asd']
+  git:
+    - https://github.com/sbcl/sbcl
+    - https://github.com/fukamachi/clack
+    - https://github.com/edicl/hunchentoot
+
 Coq:
   glob: '*.v'
   git:
