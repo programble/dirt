@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/dirt.css">
     {% for stylesheet in css %}
       <link rel="stylesheet" href="/css/{{ stylesheet }}.css">
     {% endfor %}
@@ -42,10 +43,24 @@
               </a>
             </li>
 
-            <li class="{{ doc }}">
+            <li class="dropdown-split-left {{ doc }}">
               <a href="/api/doc">
                 <i class="fa fa-book"></i> API Documentation
               </a>
+            </li>
+
+            <li class="dropdown dropdown-split-right hidden-xs {{ doc }}">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu pull-right">
+                <li><a href="/api/doc">API Documentation</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Methods</li>
+                <li><a href="/api/doc#meta">Meta</a></li>
+                <li><a href="/api/doc#classification">Classification</a></li>
+                <li><a href="/api/doc#statistics">Statistics</a></li>
+              </ul>
             </li>
           </ul>
 
