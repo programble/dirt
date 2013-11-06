@@ -28,7 +28,7 @@ describe Dirt::Tokenizer do
   end
 
   it 'skips line comments' do
-    %w[# // ;; --].each do |c|
+    %w[# // /// ; ;; --].each do |c|
       tokenize("#{c} foo")
       expect(@tokens).to be_empty
 
@@ -45,7 +45,7 @@ describe Dirt::Tokenizer do
 
   it 'skips block comments' do
     {'/*' => '*/', '<!--' => '-->', '{-' => '-}', '(*' => '*)',
-     '"""' => '"""'}.each do |o, c|
+     '"""' => '"""', '--[[' => ']]'}.each do |o, c|
       tokenize("#{o} foo\nbar #{c}")
       expect(@tokens).to be_empty
 
