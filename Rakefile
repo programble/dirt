@@ -38,6 +38,11 @@ task :train, [:language, :files] do |t, args|
   train(t.language, t.files, *t.extras)
 end
 
+desc 'Prune classifier'
+task :prune do |t|
+  Dirt::Classifier.new.prune!
+end
+
 desc 'Classify a file or standard input'
 task :classify, [:file] do |t, args|
   f = args.file ? File.open(args.file) : $stdin

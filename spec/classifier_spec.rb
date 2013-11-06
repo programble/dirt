@@ -52,6 +52,23 @@ describe Dirt::Classifier do
       classify(%w[foo bar baz], ['A', 'C'])
       expect(@scores.keys).to eq(['A', 'C'])
     end
+
+    it 'prunes' do
+      @classifier.prune!
+      expect(@redis.get('tokens:total').to_i).to eq(10)
+      expect(@redis.get('tokens:A:total').to_i).to eq(5)
+      expect(@redis.zcard('tokens:A')).to eq(2)
+      expect(@redis.get('tokens:B:total').to_i).to eq(2)
+      expect(@redis.zcard('tokens:B')).to eq(1)
+      expect(@redis.get('tokens:C:total').to_i).to eq(3)
+      expect(@redis.zcard('tokens:C')).to eq(1)
+    end
+
+    it 'prunes specific languages' do
+      @classifier.prune!(['A', 'B'])
+      expect(@redis.get('tokens:total').to_i).to eq(11)
+      expect(@redis.get('tokens:C:total').to_i).to eq(4)
+    end
   end
 
   it 'classifies nothing' do

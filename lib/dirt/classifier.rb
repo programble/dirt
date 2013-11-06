@@ -31,6 +31,10 @@ module Dirt
       @redis = redis.is_a?(Redis) ? redis : Redis.new(redis)
     end
 
+    def languages
+      @redis.hkeys('samples')
+    end
+
     def train!(language, tokens)
       @redis.hincrby('samples', language, 1)
       @redis.incr('samples:total')
@@ -44,11 +48,23 @@ module Dirt
       end
     end
 
-    def classify(tokens, languages = nil)
-      languages ||= @redis.hkeys('samples')
+    def prune!(set = nil)
+      set ||= languages
+
+      total_removed = 0
+      set.each do |language|
+        removed = @redis.zremrangebyscore("tokens:#{language}", 0, 1)
+        total_removed += removed
+        @redis.decrby("tokens:#{language}:total", removed)
+      end
+      @redis.decrby('tokens:total', total_removed)
+    end
+
+    def classify(tokens, set = nil)
+      set ||= languages
 
       Hash.new.tap do |scores|
-        languages.each do |language|
+        set.each do |language|
           scores[language] = tokens_probability(tokens, language) +
             language_probability(language)
         end
