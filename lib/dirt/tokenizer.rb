@@ -49,24 +49,24 @@ module Dirt
       end
 
       # Skip comments
-      scan(%r"(\s+(/{2,}|#+|;+|-{2,}) [^\n]*)+"m) # Java/C, Ruby/Shell, Lisp, Haskell
+      skip(%r$(\s+(/{2,}|#+|;+|-{2,}|!+|") [^\n]*)+$m)
 
-      scan_block_comment(%r"/\*", %r"\*/") # Java/C
-      scan_block_comment(/<!--/, /-->/)    # XML/HTML
-      scan_block_comment(/{-/, /-}/)       # Haskell
-      scan_block_comment(/\(\*/, /\*\)/)   # Coq/SML
-      scan_block_comment(/"""/, /"""/)     # Python
-      scan_block_comment(/--\[\[/, /\]\]/) # Lua
-      scan_block_comment(/#\|/, /\|#/)     # Common Lisp
+      skip_block_comment(%r"/\*", %r"\*/") # Java/C
+      skip_block_comment(/<!--/, /-->/)    # XML/HTML
+      skip_block_comment(/{-/, /-}/)       # Haskell
+      skip_block_comment(/\(\*/, /\*\)/)   # Coq/SML
+      skip_block_comment(/"""/, /"""/)     # Python
+      skip_block_comment(/--\[\[/, /\]\]/) # Lua
+      skip_block_comment(/#\|/, /\|#/)     # Common Lisp
 
       # Skip strings
-      scan(/''|""/) # Empty strings
-      skip_until(/[^\\]'/) if scan(/'/)
-      skip_until(/[^\\]"/) if scan(/"/)
+      skip(/''|""/) # Empty strings
+      skip_until(/[^\\]'/) if skip(/'/)
+      skip_until(/[^\\]"/) if skip(/"/)
 
       # Skip numbers
-      scan(/0x\h+/)
-      scan(/\d+(\.\d*)?/)
+      skip(/0x\h+/)
+      skip(/\d+(\.\d*)?/)
 
       return scan(/[,.:;{}()\[\]]/) || # Punctuation
         scan(%r"</?\w+>?") ||          # SGML tags
@@ -84,8 +84,8 @@ module Dirt
       end
     end
 
-    def scan_block_comment(open, close)
-      skip_until(close) if scan(open)
+    def skip_block_comment(open, close)
+      skip_until(close) if skip(open)
     end
   end
 end
