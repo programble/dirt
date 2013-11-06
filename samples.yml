@@ -79,6 +79,11 @@ Erlang:
   git:
     - https://github.com/erlang/otp
 
+Factor:
+  glob: '*.factor'
+  git:
+    - https://github.com/slavapestov/factor
+
 Go:
   glob: '*.go'
   git:
