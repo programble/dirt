@@ -40,10 +40,10 @@ module Dirt
       @redis.incr('samples:total')
 
       @redis.pipelined do
-        tokens.each do |token|
-          @redis.zincrby("tokens:#{language}", 1, token)
-          @redis.incr("tokens:#{language}:total")
-          @redis.incr('tokens:total')
+        tokens.group_by {|x| x }.each do |token, group|
+          @redis.zincrby("tokens:#{language}", group.length, token)
+          @redis.incrby("tokens:#{language}:total", group.length)
+          @redis.incrby('tokens:total', group.length)
         end
       end
     end
