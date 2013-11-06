@@ -16,20 +16,25 @@ describe Dirt::Classifier do
       @classifier.train!('A', %w[foo bar baz])
       @classifier.train!('A', %w[foo foo baz])
       @classifier.train!('B', %w[bar bar baz])
+      @classifier.train!('C', %w[baz baz baz foo])
     end
 
     it 'trains' do
-      expect(@redis.get('samples:total').to_i).to eq(3)
+      expect(@redis.get('samples:total').to_i).to eq(4)
       expect(@redis.hget('samples', 'A').to_i).to eq(2)
       expect(@redis.hget('samples', 'B').to_i).to eq(1)
-      expect(@redis.get('tokens:total').to_i).to eq(9)
+      expect(@redis.hget('samples', 'C').to_i).to eq(1)
+      expect(@redis.get('tokens:total').to_i).to eq(13)
       expect(@redis.get('tokens:A:total').to_i).to eq(6)
       expect(@redis.get('tokens:B:total').to_i).to eq(3)
+      expect(@redis.get('tokens:C:total').to_i).to eq(4)
       expect(@redis.zscore('tokens:A', 'foo').to_i).to eq(3)
       expect(@redis.zscore('tokens:A', 'bar').to_i).to eq(1)
       expect(@redis.zscore('tokens:A', 'baz').to_i).to eq(2)
       expect(@redis.zscore('tokens:B', 'bar').to_i).to eq(2)
       expect(@redis.zscore('tokens:B', 'baz').to_i).to eq(1)
+      expect(@redis.zscore('tokens:C', 'baz').to_i).to eq(3)
+      expect(@redis.zscore('tokens:C', 'foo').to_i).to eq(1)
     end
 
     it 'classifies' do
