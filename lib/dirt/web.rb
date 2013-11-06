@@ -30,7 +30,6 @@ module Dirt
       liquid :stats, locals: {
         title: 'Statistics',
         stats: 'active',
-        css: ['stats'],
         js: ['stats']
       }
     end

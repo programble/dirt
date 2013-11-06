@@ -6,3 +6,21 @@
 .navbar-nav>li.dropdown-split-right>a {
   padding-left: 7px;
 }
+
+/* Statistics */
+
+#languages th, #languages td {
+  text-align: right;
+}
+
+#languages tr>*:nth-child(1), #languages tr>*:nth-child(2) {
+  text-align: left;
+}
+
+#languages tbody tr {
+  cursor: pointer;
+}
+
+#tokens tr>*:nth-child(3) {
+  text-align: right;
+}
