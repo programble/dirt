@@ -57,6 +57,7 @@ module Dirt
       scan_block_comment(/\(\*/, /\*\)/)   # Coq/SML
       scan_block_comment(/"""/, /"""/)     # Python
       scan_block_comment(/--\[\[/, /\]\]/) # Lua
+      scan_block_comment(/#\|/, /\|#/)     # Common Lisp
 
       # Skip strings
       scan(/''|""/) # Empty strings
