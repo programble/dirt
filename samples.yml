@@ -90,6 +90,7 @@ Factor:
   glob: '*.factor'
   git:
     - https://github.com/slavapestov/factor
+    - https://github.com/mrjbq7/re-factor
 
 Go:
   glob: '*.go'
