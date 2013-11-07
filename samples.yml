@@ -9,6 +9,12 @@ Agda:
   git:
     - https://github.com/UlfNorell/agda
 
+Assembly:
+  glob: ['*.asm', '*.s', '*.S']
+  git:
+    - https://github.com/ReturnInfinity/BareMetal-OS
+    - https://github.com/pooler/cpuminer
+
 C:
   glob: ['*.c', '*.h']
   git:
@@ -243,6 +249,7 @@ VimL:
     - https://github.com/gmarik/vundle
     - https://github.com/Shougo/neobundle.vim
     - https://github.com/scrooloose/syntastic
+    - https://github.com/programble/jellybeans.vim
 
 'Visual Basic':
   glob: '*.vb'
