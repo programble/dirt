@@ -236,6 +236,14 @@ Vala:
     - https://github.com/antono/valum
     - https://github.com/Valama/valama
 
+VimL:
+  glob: '*.vim'
+  git:
+    - https://github.com/tpope/vim-pathogen
+    - https://github.com/gmarik/vundle
+    - https://github.com/Shougo/neobundle.vim
+    - https://github.com/scrooloose/syntastic
+
 'Visual Basic':
   glob: '*.vb'
   git:
