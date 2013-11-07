@@ -3,16 +3,8 @@ require 'dirt/api/classify'
 describe Dirt::API::Classify do
   include Rack::Test::Methods
 
-  before do
-    redis = Redis.new
-    redis.del(redis.keys('*')) unless redis.keys('*').empty?
-
-    classifier = Dirt::Classifier.new(redis)
-    ('A'..'Z').each do |language|
-      tokens = %w[foo bar baz].sample(rand(3))
-      classifier.train!(language, tokens)
-    end
-  end
+  include RandomTraining
+  before { train! }
 
   def classify(*args)
     post('/api/classify', *args)

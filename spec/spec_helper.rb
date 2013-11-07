@@ -14,6 +14,22 @@ end
 
 require 'rspec'
 
+module RandomTraining
+  def train!
+    redis = Redis.new
+    redis.del(redis.keys('*')) unless redis.keys('*').empty?
+
+    classifier = Dirt::Classifier.new(redis)
+    ('A'..'M').each do |language|
+      tokens = Hash.new(0)
+      25.times do
+        tokens[('a'..'z').to_a.sample(rand(8) + 1).join] += 1
+      end
+      classifier.train!(language, tokens)
+    end
+  end
+end
+
 require 'rack/test'
 require 'json'
 module Rack::Test::Methods

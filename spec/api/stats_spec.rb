@@ -4,18 +4,8 @@ require 'dirt/api/stats'
 describe Dirt::API::Stats do
   include Rack::Test::Methods
 
-  before do
-    redis = Redis.new
-    redis.del(redis.keys('*')) unless redis.keys('*').empty?
-
-    classifier = Dirt::Classifier.new(redis)
-    ('A'..'C').each do |language|
-      tokens = (1..25).map do
-        ('a'..'z').to_a.sample(rand(8) + 1).join
-      end
-      classifier.train!(language, tokens)
-    end
-  end
+  include RandomTraining
+  before { train! }
 
   context 'stats' do
     it 'returns a JSON stats hash' do
