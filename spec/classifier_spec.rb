@@ -13,10 +13,10 @@ describe Dirt::Classifier do
 
   context 'with training' do
     before do
-      @classifier.train!('A', %w[foo bar baz])
-      @classifier.train!('A', %w[foo foo baz])
-      @classifier.train!('B', %w[bar bar baz])
-      @classifier.train!('C', %w[baz baz baz foo])
+      @classifier.train!('A', 'foo' => 1, 'bar' => 1, 'baz' => 1)
+      @classifier.train!('A', 'foo' => 2, 'baz' => 1)
+      @classifier.train!('B', 'bar' => 2, 'baz' => 1)
+      @classifier.train!('C', 'baz' => 3, 'foo' => 1)
     end
 
     it 'trains' do
@@ -38,18 +38,18 @@ describe Dirt::Classifier do
     end
 
     it 'classifies' do
-      classify(%w[bar baz])
+      classify('bar' => 1, 'baz' => 1)
       expect(@scores['B']).to be > @scores['A']
 
-      classify(%w[foo baz])
+      classify('foo' => 1, 'baz' => 1)
       expect(@scores['A']).to be > @scores['B']
 
-      classify(%w[quux])
+      classify('quux' => 1)
       expect(@scores['A']).to be > @scores['B']
     end
 
     it 'classifies against specific languages' do
-      classify(%w[foo bar baz], ['A', 'C'])
+      classify({'foo' => 1, 'bar' => 1, 'baz' => 1}, ['A', 'C'])
       expect(@scores.keys).to eq(['A', 'C'])
     end
 
