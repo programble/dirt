@@ -43,6 +43,20 @@ module Dirt
       tokens
     end
 
+    BLOCK_COMMENTS = {
+      '/*'   => '*/',  # Java/C
+      '<!--' => '-->', # HTML
+      '{-'   => '-}',  # Haskell
+      '(*'   => '*)',  # Coq/SML
+      '"""'  => '"""', # Python
+      '--[[' => ']]',  # Lua
+      '#|'   => '|#'   # Common Lisp
+    }
+
+    BLOCK_COMMENT_REGEXP = Regexp.new(BLOCK_COMMENTS.map {|o, c|
+      Regexp.escape(o)
+    }.join('|'))
+
     def scan_token
       if shebang = scan_shebang
         return shebang
@@ -51,13 +65,9 @@ module Dirt
       # Skip comments
       skip(%r$(\s+(/{2,}|#+|;+|-{2,}|!+|") [^\n]*)+$m)
 
-      skip_block_comment(%r"/\*",  %r"\*/") # Java/C
-      skip_block_comment(/<!--/,   /-->/)   # XML/HTML
-      skip_block_comment(/{-/,     /-}/)    # Haskell
-      skip_block_comment(/\(\*/,   /\*\)/)  # Coq/SML
-      skip_block_comment(/"""/,    /"""/)   # Python
-      skip_block_comment(/--\[\[/, /\]\]/)  # Lua
-      skip_block_comment(/#\|/,    /\|#/)   # Common Lisp
+      if open = scan(BLOCK_COMMENT_REGEXP)
+        skip_until(Regexp.new(Regexp.escape(BLOCK_COMMENTS[open])))
+      end
 
       # Skip strings
       skip(/''|""/) # Empty strings
@@ -82,10 +92,6 @@ module Dirt
         script = parts[1] if script == 'env' && parts[1]
         '#!' + script[/\D+/]
       end
-    end
-
-    def skip_block_comment(open, close)
-      skip_until(close) if skip(open)
     end
   end
 end
