@@ -222,6 +222,12 @@ Shell:
     - https://github.com/progrium/dokku
     - https://github.com/nvie/gitflow
 
+Smalltalk:
+  glob: '*.st'
+  git:
+    - https://github.com/bonzini/smalltalk
+    - https://github.com/NicolasPetton/iliad
+
 'Standard ML':
   glob: ['*.sml', '*.sig', '*.fun']
   git:
