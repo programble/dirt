@@ -162,6 +162,15 @@ OCaml:
     - https://github.com/facebook/pfff
     - https://github.com/ocaml/opam
 
+Objective-C:
+  glob: ['*.m', '*.h']
+  git:
+    - https://github.com/path/FastImageCache
+    - https://github.com/IFTTT/JazzHands
+    - https://github.com/AFNetworking/AFNetworking
+    - https://github.com/fotonauts/handlebars-objc
+    - https://github.com/mrackwitz/MRProgress.git
+
 PHP:
   glob: '*.php'
   git:
