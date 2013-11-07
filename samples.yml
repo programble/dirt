@@ -156,6 +156,12 @@ Lua:
     - https://github.com/kernelsauce/turbo
     - https://github.com/pkulchenko/ZeroBraneStudio
 
+OCaml:
+  glob: '*.ml'
+  git:
+    - https://github.com/facebook/pfff
+    - https://github.com/ocaml/opam
+
 PHP:
   glob: '*.php'
   git:
