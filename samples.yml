@@ -181,12 +181,12 @@ Python:
 R:
   glob: '*.r'
   git:
-    - https://github.com/yihui/knitr.git
+    - https://github.com/yihui/knitr
 
 Racket:
   glob: '*.rkt'
   git:
-    - https://github.com/plt/racket.git
+    - https://github.com/plt/racket
 
 Ruby:
   glob: ['*.rb', 'Gemfile', 'Rakefile', '*.gemspec']
