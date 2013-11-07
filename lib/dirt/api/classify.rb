@@ -3,10 +3,14 @@ require 'dirt/classifier'
 
 require 'json'
 require 'sinatra/base'
+require 'sinatra/cross_origin'
 
 module Dirt
   module API
     class Classify < Sinatra::Base
+      register Sinatra::CrossOrigin
+      set :cross_origin, true
+
       def classify(params)
         halt 400, {error: 'No sample'}.to_json unless params[:sample]
 

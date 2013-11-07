@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'redis', '~> 3.0.0'
 
 gem 'sinatra', '~> 1.4.0'
+gem 'sinatra-cross_origin', '~> 0.2.0'
 gem 'liquid', '~> 2.5.0'
 gem 'thin', :group => :thin
 

@@ -1,10 +1,14 @@
 require 'json'
 require 'redis'
 require 'sinatra/base'
+require 'sinatra/cross_origin'
 
 module Dirt
   module API
     class Stats < Sinatra::Base
+      register Sinatra::CrossOrigin
+      set :cross_origin, true
+
       def redis
         @redis ||= Redis.new
       end
