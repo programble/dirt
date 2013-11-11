@@ -4,9 +4,9 @@ rvm:
   - 2.0.0
   - jruby-19mode
   - rbx-19mode
-bundler_args: --without thin
+bundler_args: --without thin bson_ext
 services:
-  - redis-server
+  - mongodb
 
 notifications:
   webhooks:

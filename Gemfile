@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'redis', '~> 3.0.0'
+gem 'mongo', '~> 1.9.0'
+gem 'bson_ext', :group => :bson_ext
 
 gem 'sinatra', '~> 1.4.0'
 gem 'sinatra-cross_origin', '~> 0.2.0'
