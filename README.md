@@ -2,8 +2,9 @@
 
 Language detection service.
 
-Dirt's tokenizer and classifier are based on those of [GitHub
-Linguist](https://github.com/github/linguist).
+Dirt uses Bayes classification to detect the language of code samples
+based on token probabilities. Dirt's tokenizer and classifier are based
+on [Linguist](https://github.com/github/linguist).
 
 ## License
 
