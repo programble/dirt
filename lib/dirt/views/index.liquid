@@ -1,3 +1,61 @@
-<div class="page-header">
-  <h1>Dirt <small>Language Detection Service</small></h1>
+<div class="jumbotron">
+  <h1>Language detection service</h1>
+  <p>
+    Dirt is a service for detecting the programming language of code samples.
+  </p>
+  <p>
+    <a class="btn btn-lg btn-primary" href="/demo">
+      <i class="fa fa-magic"></i> Try it
+    </a>
+    <a class="btn btn-lg btn-success" href="/api/doc">
+      <i class="fa fa-rocket"></i> Use it
+    </a>
+  </p>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <h2>How does it work?</h2>
+    <p>
+    Dirt uses Bayes classification to detect the language of code samples based
+    on token probabilities. Dirt's tokenizer and classifier are based on
+    <a href="https://github.com/github/linguist">Linguist</a>.
+  </div>
+
+  <div class="col-md-6">
+    <h2>Where should it be used?</h2>
+    <p>
+    Dirt is intended to be used by pastebin services to automatically detect
+    the language of pasted code. Since Dirt performs detection based only on
+    the code itself, it can be useful in any situation in which code is not
+    associated with a filename.
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <h2>How can it be used?</h2>
+    <p>
+    Dirt provides a simple, JSON-based API which exposes classification methods
+    as well as statistics. To get started, read the
+    <a href="/api/doc">API Documentation</a>.
+
+    <p>
+    There are currently no official API clients. Check back soon.
+  </div>
+
+  <div class="col-md-6">
+    <h2>How can it be improved?</h2>
+    <p>
+    Dirt trains its classifier by analyzing code in a list of Git repositories.
+    The repository list is contained in a
+    <a href="https://github.com/programble/dirt/blob/master/samples.yml">
+    YAML file</a>. Some languages could use more training repositories, and
+    pull requests are welcome. For an idea of the training data distribution,
+    visit the <a href="/stats">Statistics</a> page.
+
+    <p>
+    In the future, Dirt will have a training API which will allow clients to
+    submit additional training samples.
+  </div>
 </div>
