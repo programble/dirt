@@ -37,16 +37,19 @@ end
 
 desc 'Train classifier with files'
 task :train, [:language, :files] do |t, args|
+  Dirt::Mongo.connect!
   train(t.language, t.files, *t.extras)
 end
 
 desc 'Prune classifier'
 task :prune do |t|
+  Dirt::Mongo.connect!
   Dirt::Classifier.new.prune!
 end
 
 desc 'Classify a file or standard input'
 task :classify, [:file] do |t, args|
+  Dirt::Mongo.connect!
   f = args.file ? File.open(args.file) : $stdin
   scores = Dirt::Classifier.new.classify(Dirt::Tokenizer.new(f.read).tokenize)
   puts scores.sort_by {|l, s| -s }.map {|l, s| l }.take(10)
@@ -75,6 +78,7 @@ samples.each do |language, struct|
   end
 
   task lang_path do |t|
+    Dirt::Mongo.connect!
     train(language, *glob)
   end
 

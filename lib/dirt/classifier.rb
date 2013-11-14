@@ -23,66 +23,70 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-require 'redis'
+require 'dirt/mongo'
 
 module Dirt
   class Classifier
-    def initialize(redis = {})
-      @redis = redis.is_a?(Redis) ? redis : Redis.new(redis)
-    end
-
-    def languages
-      @redis.hkeys('samples')
-    end
-
     def train!(language, tokens)
-      @redis.hincrby('samples', language, 1)
-      @redis.incr('samples:total')
+      tokens_total = tokens.values.reduce(:+)
 
-      @redis.pipelined do
-        tokens.each do |token, count|
-          @redis.zincrby("tokens:#{language}", count, token)
-          @redis.incrby("tokens:#{language}:total", count)
-          @redis.incrby('tokens:total', count)
-        end
+      language_id = Mongo.languages.find_and_modify(
+        query:  {'name' => language},
+        update: {'$inc' => {'samples' => 1,
+                            'tokens'  => tokens_total}},
+        fields: {'_id' => true},
+        new:    true,
+        upsert: true)['_id']
+
+      tokens.each do |token, count|
+        Mongo.tokens.update(
+          {'language_id' => language_id, 'token' => token},
+          {'$inc' => {'count' => count}},
+          {upsert: true})
       end
+
+      Mongo.totals.update(
+        {},
+        {'$inc' => {'samples' => 1, 'tokens'  => tokens_total}},
+        {upsert: true})
     end
 
-    def prune!(set = nil)
-      set ||= languages
+    def prune!
+      tokens_total = 0
+      Mongo.languages.find.each do |language|
+        query = {'language_id' => language['_id'], 'count' => 1}
+        tokens = Mongo.tokens.count(query)
+        Mongo.tokens.remove(query)
 
-      total_removed = 0
-      set.each do |language|
-        removed = @redis.zremrangebyscore("tokens:#{language}", 0, 1)
-        total_removed += removed
-        @redis.decrby("tokens:#{language}:total", removed)
+        Mongo.languages.update(language, {'$inc' => {'tokens' => -tokens}})
+
+        tokens_total += tokens
       end
-      @redis.decrby('tokens:total', total_removed)
+
+      Mongo.totals.update( {}, {'$inc' => {'tokens' => -tokens_total}})
     end
 
-    def classify(tokens, set = nil)
-      set ||= languages
+    def classify(tokens)
+      totals = Mongo.totals.find_one
 
       Hash.new.tap do |scores|
-        set.each do |language|
-          scores[language] = tokens_probability(tokens, language) +
-            language_probability(language)
+        Mongo.languages.find.each do |language|
+          scores[language['name']] = tokens_probability(tokens, language, totals) +
+            Math.log(language['samples'] / totals['samples'].to_f)
         end
       end
     end
 
-    def tokens_probability(tokens, language)
-      language_total = @redis.get("tokens:#{language}:total").to_f
-      total = @redis.get('tokens:total').to_f
-
+    def tokens_probability(tokens, language, totals)
       tokens.map do |token, count|
-        score = @redis.zscore("tokens:#{language}", token)
-        Math.log(score ? score.to_f / language_total : 1 / total) * count
+        score = Mongo.tokens.find_one({'language_id' => language['_id'],
+                                       'token'       => token})
+        if score
+          Math.log(score['count'] / language['tokens'].to_f) * count
+        else
+          Math.log(1 / totals['tokens'].to_f) * count
+        end
       end.reduce(0.0, :+)
-    end
-
-    def language_probability(language)
-      Math.log(@redis.hget('samples', language).to_f / @redis.get('samples:total').to_f)
     end
   end
 end
