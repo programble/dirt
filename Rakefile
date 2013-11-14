@@ -48,7 +48,7 @@ end
 desc 'Train classifier with files'
 task :train, [:language, :files] do |t, args|
   Dirt::Mongo.connect!
-  train(t.language, t.files, *t.extras)
+  train(args.language, args.files, *args.extras)
 end
 
 desc 'Prune classifier'
