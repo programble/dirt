@@ -47,7 +47,7 @@ end
 
 desc 'Train classifier with files'
 task :train, [:language, :files] do |t, args|
-  train(t.language, t.files, *t.extras)
+  train(args.language, args.files, *args.extras)
 end
 
 desc 'Prune classifier'
