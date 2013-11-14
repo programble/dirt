@@ -27,12 +27,12 @@ require 'dirt/mongo'
 
 module Dirt
   class Classifier
-    def train!(language, tokens)
+    def train!(language, tokens, samples = 1)
       tokens_total = tokens.values.reduce(:+)
 
       language_id = Mongo.languages.find_and_modify(
         query:  {'name' => language},
-        update: {'$inc' => {'samples' => 1,
+        update: {'$inc' => {'samples' => samples,
                             'tokens'  => tokens_total}},
         fields: {'_id' => true},
         new:    true,
@@ -47,7 +47,7 @@ module Dirt
 
       Mongo.totals.update(
         {},
-        {'$inc' => {'samples' => 1, 'tokens'  => tokens_total}},
+        {'$inc' => {'samples' => samples, 'tokens'  => tokens_total}},
         {upsert: true})
     end
 
