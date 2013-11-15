@@ -23,70 +23,81 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-require 'dirt/mongo'
+require 'mongo'
 
 module Dirt
   class Classifier
+    def initialize(mongo = nil)
+      @mongo = mongo || Mongo::MongoClient.new
+      @db = @mongo.db
+
+      @db['languages'].ensure_index({'name' => Mongo::ASCENDING}, unique: true)
+      @db['tokens'].ensure_index({'language_id' => Mongo::ASCENDING,
+                                  'tokens'      => Mongo::ASCENDING})
+    end
+
     def train!(language, tokens, samples = 1)
       tokens_total = tokens.values.reduce(:+)
 
-      language_id = Mongo.languages.find_and_modify(
+      language = @db['languages'].find_and_modify(
         query:  {'name' => language},
-        update: {'$inc' => {'samples' => samples,
-                            'tokens'  => tokens_total}},
-        fields: {'_id' => true},
+        update: {'$inc' => {'samples' => samples, 'tokens' => tokens_total}},
         new:    true,
-        upsert: true)['_id']
+        upsert: true)
 
       tokens.each do |token, count|
-        Mongo.tokens.update(
-          {'language_id' => language_id, 'token' => token},
+        @db['tokens'].update(
+          {'language_id' => language['_id'], 'token' => token},
           {'$inc' => {'count' => count}},
-          {upsert: true})
+          upsert: true)
       end
 
-      Mongo.totals.update(
+      @db['totals'].update(
         {},
-        {'$inc' => {'samples' => samples, 'tokens'  => tokens_total}},
-        {upsert: true})
+        {'$inc' => {'samples' => samples, 'tokens' => tokens_total}},
+        upsert: true)
     end
 
     def prune!
       tokens_total = 0
-      Mongo.languages.find.each do |language|
-        query = {'language_id' => language['_id'], 'count' => 1}
-        tokens = Mongo.tokens.count(query)
-        Mongo.tokens.remove(query)
 
-        Mongo.languages.update(language, {'$inc' => {'tokens' => -tokens}})
+      @db['languages'].find.each do |language|
+        query = {'language_id' => language['_id'], 'count' => 1}
+        tokens = @db['tokens'].count(query)
+        @db['tokens'].remove(query) # FIXME: Possible race condition
+
+        @db['languages'].update(
+          language['_id'],
+          {'$inc' => {'tokens' => -tokens}})
 
         tokens_total += tokens
       end
 
-      Mongo.totals.update( {}, {'$inc' => {'tokens' => -tokens_total}})
+      @db['totals'].update({}, {'$inc' => {'tokens' => -tokens_total}})
     end
 
     def classify(tokens)
-      totals = Mongo.totals.find_one
+      totals = @db['totals'].find_one
 
       Hash.new.tap do |scores|
-        Mongo.languages.find.each do |language|
-          scores[language['name']] = tokens_probability(tokens, language, totals) +
-            Math.log(language['samples'] / totals['samples'].to_f)
+        @db['languages'].find.each do |language|
+          score = Math.log(language['samples'] / totals['samples'].to_f)
+
+          tokens.each do |token, count|
+            db_token = @db['tokens'].find_one(
+              {'language_id' => language['_id'],
+               'token'       => token})
+
+            if db_token
+              score += Math.log(db_token['count'] / language['tokens'].to_f) * count
+            else
+              score += Math.log(1 / totals['tokens'].to_f) * count
+            end
+          end
+
+          scores[language['name']] = score
         end
       end
-    end
-
-    def tokens_probability(tokens, language, totals)
-      tokens.map do |token, count|
-        score = Mongo.tokens.find_one({'language_id' => language['_id'],
-                                       'token'       => token})
-        if score
-          Math.log(score['count'] / language['tokens'].to_f) * count
-        else
-          Math.log(1 / totals['tokens'].to_f) * count
-        end
-      end.reduce(0.0, :+)
     end
   end
 end

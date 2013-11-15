@@ -11,13 +11,14 @@ module Dirt
       register Sinatra::CrossOrigin
       set :cross_origin, true
 
+      set :classifier, Classifier.new
+      def classifier
+        settings.classifier
+      end
+
       def classify(params)
         halt 400, {error: 'No sample'}.to_json unless params[:sample]
-
-        tokenizer = Tokenizer.new(params[:sample])
-        classifier = Classifier.new
-
-        classifier.classify(tokenizer.tokenize)
+        classifier.classify(Tokenizer.new(params[:sample]).tokenize)
       end
 
       before do
