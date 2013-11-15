@@ -9,6 +9,8 @@ end
 
 task :default => :spec
 
+ENV['MONGODB_URI'] ||= 'mongodb://localhost/dirt_development'
+
 $LOAD_PATH.unshift('lib')
 require 'dirt/tokenizer'
 require 'dirt/classifier'
@@ -19,7 +21,7 @@ def train(language, *globs)
   files, i = FileList[*globs], 0
   files.each_slice(100) do |slice|
     i += slice.length
-    puts "#{language}\t\t#{i}/#{files.length}"
+    puts "#{language}\t#{i}/#{files.length}"
 
     tokens = slice.map do |file|
       begin
@@ -47,19 +49,16 @@ end
 
 desc 'Train classifier with files'
 task :train, [:language, :files] do |t, args|
-  Dirt::Mongo.connect!
   train(args.language, args.files, *args.extras)
 end
 
 desc 'Prune classifier'
 task :prune do |t|
-  Dirt::Mongo.connect!
   Dirt::Classifier.new.prune!
 end
 
 desc 'Classify a file or standard input'
 task :classify, [:file] do |t, args|
-  Dirt::Mongo.connect!
   f = args.file ? File.open(args.file) : $stdin
   scores = Dirt::Classifier.new.classify(Dirt::Tokenizer.new(f.read).tokenize)
   puts scores.sort_by {|l, s| -s }.map {|l, s| l }.take(10)
@@ -88,7 +87,6 @@ samples.each do |language, struct|
   end
 
   task lang_path do |t|
-    Dirt::Mongo.connect!
     train(language, *glob)
   end
 
