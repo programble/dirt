@@ -1,7 +1,8 @@
 require 'json'
-require 'redis'
 require 'sinatra/base'
 require 'sinatra/cross_origin'
+
+require 'dirt/stats'
 
 module Dirt
   module API
@@ -9,8 +10,9 @@ module Dirt
       register Sinatra::CrossOrigin
       set :cross_origin, true
 
-      def redis
-        @redis ||= Redis.new
+      set :stats, Dirt::Stats.new
+      def stats
+        settings.stats
       end
 
       def error(status, message)
@@ -22,27 +24,14 @@ module Dirt
       end
 
       get '/api/stats' do
-        {
-          languages: redis.hlen('samples').to_i,
-          samples: redis.get('samples:total').to_i,
-          tokens: redis.get('tokens:total').to_i
-        }.to_json
+        stats.totals.to_json
       end
 
       get '/api/stats/languages' do
-        redis.hgetall('samples').map do |language, samples|
-          {language => {
-            samples: samples.to_i,
-            tokens: redis.get("tokens:#{language}:total").to_i,
-            uniqueTokens: redis.zcard("tokens:#{language}")
-          }}
-        end.reduce(&:merge).to_json
+        stats.languages.to_json
       end
 
       get '/api/stats/tokens' do
-        language = params[:language]
-        error 404, 'Unknown language' unless redis.exists("tokens:#{language}")
-
         begin
           limit = Integer(params[:limit] || 20)
           page = Integer(params[:page] || 1)
@@ -55,13 +44,10 @@ module Dirt
 
         error 403, 'Limit over maximum' if limit > 1000
 
-        lower = (page - 1) * limit
-        upper = lower + limit - 1
-
-        tokens = redis.zrevrange("tokens:#{language}", lower, upper, with_scores: true)
+        tokens = stats.tokens(params[:language], limit, page)
+        error 404, 'Unknown language' unless tokens
         error 404, 'No more tokens' if tokens.empty?
-
-        tokens.map {|l, t| [l, t.to_i] }.to_json
+        tokens.to_json
       end
     end
   end
