@@ -16,10 +16,11 @@ require 'rspec'
 
 module RandomTraining
   def train!
-    redis = Redis.new
-    redis.del(redis.keys('*')) unless redis.keys('*').empty?
+    mongo = Mongo::MongoClient.new
+    db = mongo.db
+    mongo.drop_database(db.name)
 
-    classifier = Dirt::Classifier.new(redis)
+    classifier = Dirt::Classifier.new(mongo)
     ('A'..'M').each do |language|
       tokens = Hash.new(0)
       25.times do
