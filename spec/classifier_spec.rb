@@ -2,9 +2,11 @@ require 'dirt/classifier'
 
 describe Dirt::Classifier do
   before do
-    @redis = Redis.new
-    @redis.del(@redis.keys('*')) unless @redis.keys('*').empty?
-    @classifier = described_class.new(@redis)
+    @mongo = Mongo::MongoClient.new
+    @db = @mongo.db
+    @mongo.drop_database(@db.name)
+
+    @classifier = described_class.new(@mongo)
   end
 
   def classify(*args)
@@ -20,21 +22,45 @@ describe Dirt::Classifier do
     end
 
     it 'trains' do
-      expect(@redis.get('samples:total').to_i).to eq(4)
-      expect(@redis.hget('samples', 'A').to_i).to eq(2)
-      expect(@redis.hget('samples', 'B').to_i).to eq(1)
-      expect(@redis.hget('samples', 'C').to_i).to eq(1)
-      expect(@redis.get('tokens:total').to_i).to eq(13)
-      expect(@redis.get('tokens:A:total').to_i).to eq(6)
-      expect(@redis.get('tokens:B:total').to_i).to eq(3)
-      expect(@redis.get('tokens:C:total').to_i).to eq(4)
-      expect(@redis.zscore('tokens:A', 'foo').to_i).to eq(3)
-      expect(@redis.zscore('tokens:A', 'bar').to_i).to eq(1)
-      expect(@redis.zscore('tokens:A', 'baz').to_i).to eq(2)
-      expect(@redis.zscore('tokens:B', 'bar').to_i).to eq(2)
-      expect(@redis.zscore('tokens:B', 'baz').to_i).to eq(1)
-      expect(@redis.zscore('tokens:C', 'baz').to_i).to eq(3)
-      expect(@redis.zscore('tokens:C', 'foo').to_i).to eq(1)
+      totals = @db['totals'].find_one
+      expect(totals['samples']).to eq(4)
+      expect(totals['tokens']).to eq(13)
+
+      language_A = @db['languages'].find_one({'name' => 'A'})
+      language_B = @db['languages'].find_one({'name' => 'B'})
+      language_C = @db['languages'].find_one({'name' => 'C'})
+
+      expect(language_A['samples']).to eq(2)
+      expect(language_B['samples']).to eq(1)
+      expect(language_C['samples']).to eq(1)
+
+      expect(language_A['tokens']).to eq(6)
+      expect(language_B['tokens']).to eq(3)
+      expect(language_C['tokens']).to eq(4)
+
+      expect(@db['tokens'].find_one({'language_id' => language_A['_id'],
+                                     'token' => 'foo',
+                                     'count' => 3})).to be_a(Hash)
+      expect(@db['tokens'].find_one({'language_id' => language_A['_id'],
+                                     'token' => 'bar',
+                                     'count' => 1})).to be_a(Hash)
+      expect(@db['tokens'].find_one({'language_id' => language_A['_id'],
+                                     'token' => 'baz',
+                                     'count' => 2})).to be_a(Hash)
+
+      expect(@db['tokens'].find_one({'language_id' => language_B['_id'],
+                                     'token' => 'bar',
+                                     'count' => 2})).to be_a(Hash)
+      expect(@db['tokens'].find_one({'language_id' => language_B['_id'],
+                                     'token' => 'baz',
+                                     'count' => 1})).to be_a(Hash)
+
+      expect(@db['tokens'].find_one({'language_id' => language_C['_id'],
+                                     'token' => 'baz',
+                                     'count' => 3})).to be_a(Hash)
+      expect(@db['tokens'].find_one({'language_id' => language_C['_id'],
+                                     'token' => 'foo',
+                                     'count' => 1})).to be_a(Hash)
     end
 
     it 'classifies' do
@@ -48,26 +74,22 @@ describe Dirt::Classifier do
       expect(@scores['A']).to be > @scores['B']
     end
 
-    it 'classifies against specific languages' do
-      classify({'foo' => 1, 'bar' => 1, 'baz' => 1}, ['A', 'C'])
-      expect(@scores.keys).to eq(['A', 'C'])
-    end
-
     it 'prunes' do
       @classifier.prune!
-      expect(@redis.get('tokens:total').to_i).to eq(10)
-      expect(@redis.get('tokens:A:total').to_i).to eq(5)
-      expect(@redis.zcard('tokens:A')).to eq(2)
-      expect(@redis.get('tokens:B:total').to_i).to eq(2)
-      expect(@redis.zcard('tokens:B')).to eq(1)
-      expect(@redis.get('tokens:C:total').to_i).to eq(3)
-      expect(@redis.zcard('tokens:C')).to eq(1)
-    end
 
-    it 'prunes specific languages' do
-      @classifier.prune!(['A', 'B'])
-      expect(@redis.get('tokens:total').to_i).to eq(11)
-      expect(@redis.get('tokens:C:total').to_i).to eq(4)
+      expect(@db['totals'].find_one['tokens']).to eq(10)
+
+      language_A = @db['languages'].find_one({'name' => 'A'})
+      language_B = @db['languages'].find_one({'name' => 'B'})
+      language_C = @db['languages'].find_one({'name' => 'C'})
+
+      expect(language_A['tokens']).to eq(5)
+      expect(language_B['tokens']).to eq(2)
+      expect(language_C['tokens']).to eq(3)
+
+      expect(@db['tokens'].count({'language_id' => language_A['_id']})).to eq(2)
+      expect(@db['tokens'].count({'language_id' => language_B['_id']})).to eq(1)
+      expect(@db['tokens'].count({'language_id' => language_C['_id']})).to eq(1)
     end
   end
 
