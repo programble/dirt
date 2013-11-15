@@ -63,11 +63,11 @@ module Dirt
 
       @db['languages'].find.each do |language|
         query = {'language_id' => language['_id'], 'count' => 1}
-        tokens = @db['tokens'].count(query)
+        tokens = @db['tokens'].find(query).count
         @db['tokens'].remove(query) # FIXME: Possible race condition
 
         @db['languages'].update(
-          language['_id'],
+          {'_id' => language['_id']},
           {'$inc' => {'tokens' => -tokens}})
 
         tokens_total += tokens

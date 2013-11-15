@@ -87,9 +87,12 @@ describe Dirt::Classifier do
       expect(language_B['tokens']).to eq(2)
       expect(language_C['tokens']).to eq(3)
 
-      expect(@db['tokens'].count({'language_id' => language_A['_id']})).to eq(2)
-      expect(@db['tokens'].count({'language_id' => language_B['_id']})).to eq(1)
-      expect(@db['tokens'].count({'language_id' => language_C['_id']})).to eq(1)
+      expect(@db['tokens'].find(
+        {'language_id' => language_A['_id']}).count).to eq(2)
+      expect(@db['tokens'].find(
+        {'language_id' => language_B['_id']}).count).to eq(1)
+      expect(@db['tokens'].find(
+        {'language_id' => language_C['_id']}).count).to eq(1)
     end
   end
 
