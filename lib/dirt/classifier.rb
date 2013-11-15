@@ -33,7 +33,7 @@ module Dirt
 
       @db['languages'].ensure_index({'name' => Mongo::ASCENDING}, unique: true)
       @db['tokens'].ensure_index({'language_id' => Mongo::ASCENDING,
-                                  'tokens'      => Mongo::ASCENDING})
+                                  'token'       => Mongo::ASCENDING})
     end
 
     def train!(language, tokens, samples = 1)
