@@ -15,15 +15,25 @@ require 'dirt/classifier'
 
 def train(language, *globs)
   @classifier ||= Dirt::Classifier.new
-  files = FileList[*globs]
-  files.each_with_index do |file, i|
-    puts "#{i+1}/#{files.length} #{language} #{file}"
-    begin
-      tokens = Dirt::Tokenizer.new(File.read(file)).tokenize
-      @classifier.train!(language, tokens)
-    rescue StandardError => e
-      puts e
+
+  files, i = FileList[*globs], 0
+  files.each_slice(100) do |slice|
+    i += slice.length
+    puts "#{language.ljust(15)}#{i}/#{files.length}"
+
+    tokens = slice.map do |file|
+      begin
+        Dirt::Tokenizer.new(File.read(file)).tokenize
+      rescue StandardError => e
+        puts "#{file}: #{e}"
+        {}
+      end
+    end.reduce(Hash.new(0)) do |sum, sample_tokens|
+      sample_tokens.each {|t, c| sum[t] += c }
+      sum
     end
+
+    @classifier.train!(language, tokens, slice.length)
   end
 end
 
