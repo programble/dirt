@@ -9,8 +9,9 @@ module Dirt
       register Sinatra::CrossOrigin
       set :cross_origin, true
 
+      set :redis, Redis.new
       def redis
-        @redis ||= Redis.new
+        settings.redis
       end
 
       def error(status, message)
