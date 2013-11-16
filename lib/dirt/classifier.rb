@@ -35,9 +35,9 @@ module Dirt
       @db.hkeys('samples')
     end
 
-    def train!(language, tokens)
-      @db.hincrby('samples', language, 1)
-      @db.incr('samples:total')
+    def train!(language, tokens, samples = 1)
+      @db.hincrby('samples', language, samples)
+      @db.incrby('samples:total', samples)
 
       @db.pipelined do
         tokens.each do |token, count|
