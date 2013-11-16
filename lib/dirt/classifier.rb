@@ -28,22 +28,22 @@ require 'redis'
 module Dirt
   class Classifier
     def initialize(redis = {})
-      @redis = redis.is_a?(Redis) ? redis : Redis.new(redis)
+      @db = redis.is_a?(Redis) ? redis : Redis.new(redis)
     end
 
     def languages
-      @redis.hkeys('samples')
+      @db.hkeys('samples')
     end
 
     def train!(language, tokens)
-      @redis.hincrby('samples', language, 1)
-      @redis.incr('samples:total')
+      @db.hincrby('samples', language, 1)
+      @db.incr('samples:total')
 
-      @redis.pipelined do
+      @db.pipelined do
         tokens.each do |token, count|
-          @redis.zincrby("tokens:#{language}", count, token)
-          @redis.incrby("tokens:#{language}:total", count)
-          @redis.incrby('tokens:total', count)
+          @db.zincrby("tokens:#{language}", count, token)
+          @db.incrby("tokens:#{language}:total", count)
+          @db.incrby('tokens:total', count)
         end
       end
     end
@@ -53,11 +53,11 @@ module Dirt
 
       total_removed = 0
       set.each do |language|
-        removed = @redis.zremrangebyscore("tokens:#{language}", 0, 1)
+        removed = @db.zremrangebyscore("tokens:#{language}", 0, 1)
         total_removed += removed
-        @redis.decrby("tokens:#{language}:total", removed)
+        @db.decrby("tokens:#{language}:total", removed)
       end
-      @redis.decrby('tokens:total', total_removed)
+      @db.decrby('tokens:total', total_removed)
     end
 
     def classify(tokens, set = nil)
@@ -65,24 +65,23 @@ module Dirt
 
       Hash.new.tap do |scores|
         set.each do |language|
-          scores[language] = tokens_probability(tokens, language) +
-            language_probability(language)
+          score = Math.log(
+            @db.hget('samples', language).to_f / @db.get('samples:total').to_f)
+
+          language_total = @db.get("tokens:#{language}:total").to_f
+          total = @db.get('tokens:total').to_f
+
+          tokens.each do |token, count|
+            if token_score = @db.zscore("tokens:#{language}", token)
+              score += Math.log(token_score.to_f / language_total) * count
+            else
+              score += Math.log(1 / total) * count
+            end
+          end
+
+          scores[language] = score
         end
       end
-    end
-
-    def tokens_probability(tokens, language)
-      language_total = @redis.get("tokens:#{language}:total").to_f
-      total = @redis.get('tokens:total').to_f
-
-      tokens.map do |token, count|
-        score = @redis.zscore("tokens:#{language}", token)
-        Math.log(score ? score.to_f / language_total : 1 / total) * count
-      end.reduce(0.0, :+)
-    end
-
-    def language_probability(language)
-      Math.log(@redis.hget('samples', language).to_f / @redis.get('samples:total').to_f)
     end
   end
 end
