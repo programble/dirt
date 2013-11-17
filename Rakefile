@@ -21,19 +21,20 @@ def train(language, *globs)
     i += slice.length
     puts "#{language.ljust(15)}#{i}/#{files.length}"
 
-    tokens = slice.map do |file|
+    samples = 0
+    tokens = slice.reduce(Hash.new(0)) do |sum, file|
       begin
-        Dirt::Tokenizer.new(File.read(file)).tokenize
+        Dirt::Tokenizer.new(File.read(file)).tokenize.each do |token, count|
+          sum[token] += count
+        end
+        samples += 1
       rescue StandardError => e
         puts "#{file}: #{e}"
-        {}
       end
-    end.reduce(Hash.new(0)) do |sum, sample_tokens|
-      sample_tokens.each {|t, c| sum[t] += c }
       sum
     end
 
-    @classifier.train!(language, tokens, slice.length)
+    @classifier.train!(language, tokens, samples)
   end
 end
 
