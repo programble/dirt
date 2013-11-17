@@ -12,7 +12,7 @@ module Dirt
     use API::Classify
     use API::Stats
 
-    set :public_folder, File.join(File.dirname(__FILE__), 'public')
+    set :public_folder, File.expand_path('../../../public', __FILE__)
 
     get '/' do
       liquid :index
