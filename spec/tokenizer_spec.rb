@@ -95,7 +95,7 @@ describe Dirt::Tokenizer do
 
   it 'tokenizes operators' do
     # HACK: ! with a space following would be a Factor line comment
-    str = "= == != /= ++ += -= *= %= > < >= <= + - * / % >> << ^ & | !\e&& || --"
+    str = "= == != /= ++ += -= *= %= > < >= <= + - * / % >> << ^ & | !\e&& || --\e:: :="
     tokenize(str)
     expect(@tokens).to eq(str.split(/[\s\e]/).to_set)
   end

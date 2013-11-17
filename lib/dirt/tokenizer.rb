@@ -78,10 +78,10 @@ module Dirt
       skip(/0x\h+/)
       skip(/\d+(\.\d*)?/)
 
-      return scan(/[,.:;{}()\[\]]/) || # Punctuation
+      return scan(/[,.;{}()\[\]]/) ||  # Punctuation
         scan(%r"</?\w+>?") ||          # SGML tags
         scan(/[\w@$][\w-]*[!?'=]?/) || # Regular tokens
-        scan(/[=<>+*\/%^&|!\\-]+/)     # Operators
+        scan(/[=<>+*\/%^&|!\\:-]+/)    # Operators
     end
 
     # Removes /usr/bin/env and trailing number (e.g. python3 -> python)
